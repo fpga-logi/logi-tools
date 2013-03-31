@@ -66,7 +66,7 @@ TARGET = $(TARGET_RPI_LOADER)
 
 LD = $(CROSS_COMPILE)g++
 
-OBJ_RPI_LOADER = rpi_loader.o
+OBJ_RPI_LOADER = rpi_loader.o smbus.o
 
 all : $(TARGET)
 
