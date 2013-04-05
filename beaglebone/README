@@ -3,7 +3,7 @@ beaglebone expansion port.
 Usage:
 logi_loader <bitfile>.bit
 
-The tool can only be executed after running the mux setting script for your board (logibon or mark1).
+The tool can only be executed after running the mux setting script for your board (logibone or mark1).
 
 Install:
 
