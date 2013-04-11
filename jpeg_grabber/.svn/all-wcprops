@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/385/trunk/sw/beaglebone/logibone_demo/jpeg_grabber
+END
+beagle_qvga.jpg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/340/trunk/sw/beaglebone/logibone_demo/jpeg_grabber/beagle_qvga.jpg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/340/trunk/sw/beaglebone/logibone_demo/jpeg_grabber/Makefile
+END
+jpeg_func.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/340/trunk/sw/beaglebone/logibone_demo/jpeg_grabber/jpeg_func.c
+END
+logibone_image_demo.c
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/385/trunk/sw/beaglebone/logibone_demo/jpeg_grabber/logibone_image_demo.c
+END
+jpeg_func.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/340/trunk/sw/beaglebone/logibone_demo/jpeg_grabber/jpeg_func.h
+END
