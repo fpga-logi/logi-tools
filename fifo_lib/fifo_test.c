@@ -5,8 +5,8 @@ unsigned char buffer[32*6*2] ;
 
 int main(int argc, char ** argv){
 	unsigned int i ;
-	fifo_open(0);
-	fifo_open(1);
+	if(fifo_open(0) < 0) return -1 ;
+	if(fifo_open(1) < 0) return -1 ;
 	printf("fifo 0 is %d large and contains %d tokens \n", fifo_getSize(0), fifo_getNbAvailable(0));
 	printf("fifo 1 is %d large and contains %d tokens \n", fifo_getSize(1), fifo_getNbAvailable(1));
 	/*while(1){

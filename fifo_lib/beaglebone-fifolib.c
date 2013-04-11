@@ -144,7 +144,7 @@ unsigned int fifo_getNbFree(unsigned char id){
 	if(fd > 0){
  		return ioctl(fd, LOGIBONE_FIFO_NB_FREE);
 	}
-	return (fifo_array[id].size - gpmc_pointer[fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET])*2 ;
+	return (fifo_array[id].size - (gpmc_pointer[fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET]*2) ;
 }
 
 
