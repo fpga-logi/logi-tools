@@ -20,6 +20,7 @@ static unsigned long speed = 30000000UL ;
 static unsigned int delay = 0;
 
 static unsigned char com_buffer [FIFO_BLOCK_SIZE + 2] ;
+static unsigned char cmd_buffer [4];
 
 
 struct _fifo fifo_array [MAX_FIFO_NB] ;
@@ -200,14 +201,16 @@ void fifo_reset(unsigned char id){
 unsigned int fifo_getSize(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_SIZE_OFFSET ;
 	unsigned int fSize = 0 ;
-	mark1_read(add, (unsigned char *) &fSize, 2, 0);
+	mark1_read(add, cmd_buffer, 2, 0);
+	fSize = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
 	return fSize*2 ;
 }
 
 unsigned int fifo_getNbFree(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET ;
 	unsigned int fFree = 0 ;
-	mark1_read(add, (unsigned char *) &fFree, 2, 0);
+	mark1_read(add, cmd_buffer, 2, 0);
+	fFree = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
 	fFree = fifo_array[id].size - (fFree*2) ;
 	return fFree ;
 }
@@ -216,7 +219,8 @@ unsigned int fifo_getNbFree(unsigned char id){
 unsigned int fifo_getNbAvailable(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_B_OFFSET ;
 	unsigned int fAvail = 0 ;
-	mark1_read(add, (unsigned char *) &fAvail, 2, 0);
+	mark1_read(add, cmd_buffer, 2, 0);
+	fAvail = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
 	return fAvail*2 ;
 }
 

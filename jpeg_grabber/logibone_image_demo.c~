@@ -14,6 +14,9 @@
 #include "jpeg_func.h"
 #include "fifolib.h"
 
+#define IMAGE_WIDTH 320
+#define IMAGE_HEIGHT 240
+
 int min(int a, int b){
 	if(a > b ){
 		return b ;	
@@ -26,7 +29,6 @@ int main(int argc, char ** argv){
 	long start_time, end_time ;
 	double diff_time ;
 	struct timespec cpu_time ;
-
 	FILE * jpeg_fd ;
 	FILE * raw_file ;
 	int i,j, res ;
@@ -64,7 +66,7 @@ int main(int argc, char ** argv){
 	diff_time = diff_time/1000000000 ;
 	printf("transffered %d bytes in %f s : %f B/s \n", IMAGE_WIDTH * IMAGE_HEIGHT, diff_time, (IMAGE_WIDTH * IMAGE_HEIGHT)/diff_time);
 	write_jpegfile(image_buffer, 320, 240, jpeg_fd, 100);
-	close(fifo_fd);
+	fifo_close(0);
 	fclose(jpeg_fd);
 	return 0 ;
 }
