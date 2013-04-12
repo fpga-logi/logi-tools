@@ -14,7 +14,7 @@ else
 endif
 
 CC	= gcc
-INCLUDE	= -I/usr/local/include -I../include -I./
+INCLUDE	= -I/usr/local/include -I./
 CFLAGS	= $(DEBFLAGS) -Wall $(INCLUDE) -pipe
 
 CROSS_COMPILE ?= 
@@ -60,7 +60,7 @@ CXX_SYSLIBS    =
 	$(CC_COMPILE) $<
 	$(CC_LINK) -o $@ $*.o $(LIBRARIES)
 
-TARGET_RPI_LOADER = rpi_loader
+TARGET_RPI_LOADER = logi_loader
 
 TARGET = $(TARGET_RPI_LOADER)
 
@@ -72,6 +72,9 @@ all : $(TARGET)
 
 $(TARGET_RPI_LOADER) : $(OBJ_RPI_LOADER)
 	$(LD) $(LFLAGS) -o $@ $(OBJ_RPI_LOADER) $(ADDITIONAL_LIBS) 
+
+install: $(TARGET_RPI_LOADER)
+	install $(TARGET_RPI_LOADER) /usr/bin
 
 clean :
 	rm -f *~ *.o *.a *.so $(OBJ_RPI_LOADER) $(TARGET_RPI_LOADER)

@@ -117,7 +117,7 @@ public:
                }
                
                // Dummy operations
-               for( unsigned int i=0; i<10; i++ )
+               for( unsigned int i=0; i<50; i++ )
                {
                   SetClk( false );
                   usleep( 1000 );
