@@ -54,12 +54,12 @@ int main(int argc, char ** argv){
 	
 	printf("issuing reset to fifo \n");
 	fifo_reset(0);
-	printf("fifo size : %d, free: %d\n", fifo_getSize(0), fifo_getNbFree(0));
+	printf("fifo size : %d, free: %d, available : %d \n", fifo_getSize(0), fifo_getNbFree(0), fifo_getNbAvailable(0));
 	clock_gettime(CLOCK_REALTIME, &cpu_time);
 	start_time = cpu_time.tv_nsec ;
 	 for(i = 0 ; i < IMAGE_HEIGHT ; i ++){
 		fifo_write(0, &inputImage[(i*IMAGE_WIDTH)], IMAGE_WIDTH);
-              	fifo_read(0, &image_buffer[(i*IMAGE_WIDTH)], IMAGE_WIDTH);
+		fifo_read(0, &image_buffer[(i*IMAGE_WIDTH)], IMAGE_WIDTH);
         }
 	clock_gettime(CLOCK_REALTIME, &cpu_time);
 	end_time = cpu_time.tv_nsec ;
