@@ -1,3 +1,4 @@
+#define RPI
 #include "fifolib.h"
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
@@ -201,16 +202,14 @@ void fifo_reset(unsigned char id){
 unsigned int fifo_getSize(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_SIZE_OFFSET ;
 	unsigned int fSize = 0 ;
-	mark1_read(add, cmd_buffer, 2, 0);
-	fSize = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
+	mark1_read(add, (unsigned char *) &fSize, 2, 0);
 	return fSize*2 ;
 }
 
 unsigned int fifo_getNbFree(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET ;
 	unsigned int fFree = 0 ;
-	mark1_read(add, cmd_buffer, 2, 0);
-	fFree = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
+	mark1_read(add, (unsigned char *) &fFree, 2, 0);
 	fFree = fifo_array[id].size - (fFree*2) ;
 	return fFree ;
 }
@@ -219,8 +218,7 @@ unsigned int fifo_getNbFree(unsigned char id){
 unsigned int fifo_getNbAvailable(unsigned char id){
 	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_B_OFFSET ;
 	unsigned int fAvail = 0 ;
-	mark1_read(add, cmd_buffer, 2, 0);
-	fAvail = (unsigned int) ((cmd_buffer[0] << 8) + cmd_buffer[1];
+	mark1_read(add, (unsigned char *) &fAvail, 2, 0);
 	return fAvail*2 ;
 }
 
