@@ -4,10 +4,10 @@
 #include <linux/spi/spidev.h>
 
 
-#define WR0(a, i)	((a >> 6) & 0xFF) 
+#define WR0(a, i)	((a >> 6) & 0x0FF) 
 #define WR1(a, i)	(((a << 2) & 0xFC) | (i << 1)) 
 
-#define RD0(a, i)	((a >> 6) & 0xFF) 
+#define RD0(a, i)	((a >> 6) & 0x0FF) 
 #define RD1(a, i)	(((a << 2) & 0xFC) | 0x01 | (i << 1)) 
 
 
@@ -150,6 +150,11 @@ int fifo_write(unsigned char id, char * data, unsigned int count){
 	unsigned int transferred = 0 ;
 	unsigned int transfer_size = 0 ;
 	char * src_addr =(char *) data;
+	if(count < FIFO_BLOCK_SIZE){
+		transfer_size = count ;
+	}else{
+		transfer_size = FIFO_BLOCK_SIZE ;
+	}
 	while(transferred < count){
 		while(fifo_getNbFree(id) < transfer_size); 
 		mark1_write(fifo_array[id].offset,  src_addr, transfer_size, 0);
@@ -165,10 +170,6 @@ int fifo_write(unsigned char id, char * data, unsigned int count){
 }
 
 int fifo_read(unsigned char id, char * data, unsigned int count){
-	if(fd > 0){
-		ioctl(fd, LOGIBONE_FIFO_MODE);
-		return read(fd, data, count);	
-	}
 	unsigned int transferred = 0 ;
 	unsigned int transfer_size = 0 ;
 	char * trgt_addr =(char *) data;
