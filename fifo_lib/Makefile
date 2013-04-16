@@ -1,12 +1,10 @@
 CC = gcc
 
 
-all: rpi_fifo_test
+all: beaglebone_fifo_test rpi_fifo_test
 
 clean:
 	rm -f *.a *.o fifo_test
-
-
 
 rpi_fifo.o: rpi-fifolib.c
 	$(CC) -c $@ rpi-fifolib.c

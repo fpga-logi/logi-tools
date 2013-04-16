@@ -155,6 +155,15 @@ unsigned int fifo_getNbAvailable(unsigned char id){
 	return (gpmc_pointer[fifo_array[id].address + FIFO_NB_AVAILABLE_B_OFFSET]*2) ;
 }
 
+
+void fifo_setAddress(unsigned int id, unsigned int address){
+	fifo_array[id].address = address;
+}
+
+void fifo_setCmdOffset(unsigned int id, unsigned int offset){
+	fifo_array[id].cmd_offset = offset;
+}
+
 unsigned int direct_write(unsigned int address, unsigned char * buffer, unsigned int length){
 	memcpy((void*) &gpmc_pointer[address/2], buffer, length);
 	return length ;

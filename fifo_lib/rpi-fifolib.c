@@ -229,6 +229,15 @@ unsigned int fifo_getNbAvailable(unsigned char id){
 	return fAvail*2 ;
 }
 
+void fifo_setAddress(unsigned int id, unsigned int address){
+	fifo_array[id].address = address;
+}
+
+void fifo_setCmdOffset(unsigned int id, unsigned int offset){
+	fifo_array[id].cmd_offset = offset;
+}
+
+
 unsigned int direct_write(unsigned int address, unsigned char * buffer, unsigned int length){
 	return mark1_write(address, buffer, length, 1);
 }
