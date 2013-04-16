@@ -62,11 +62,10 @@ static PyObject* fifoWrite(PyObject* self, PyObject* arg)
 static PyObject* fifoRead(PyObject* self, PyObject* arg)
 {
 	PyObject* transferTuple;
-	unsigned int id, size, returnVal, i ;
+	unsigned int id, size, i ;
 	if(!PyArg_ParseTuple(arg, "ll", &id, &size))
 		return NULL;					
 	uint8_t rx[size];
-	PyObject* tempItem;
 	fifo_read(id, rx, size);
 	transferTuple = PyTuple_New(size);
 	for(i=0;i<size;i++)
@@ -77,11 +76,10 @@ static PyObject* fifoRead(PyObject* self, PyObject* arg)
 static PyObject* directRead(PyObject* self, PyObject* arg)
 {
 	PyObject* transferTuple;
-	unsigned int offset, size, returnVal, i ;
+	unsigned int offset, size, i ;
 	if(!PyArg_ParseTuple(arg, "ll", &offset, &size))
 		return NULL;					
 	uint8_t rx[size];
-	PyObject* tempItem;
 	direct_read(offset, rx, size);
 	transferTuple = PyTuple_New(size);
 	for(i=0;i<size;i++)
@@ -125,10 +123,9 @@ static PyObject* directWrite(PyObject* self, PyObject* arg)
 static PyObject* fifoReset(PyObject* self, PyObject* arg)
 {
 	unsigned int fifo_id ;
-	unsigned int returnVal ;
 	if(!PyArg_ParseTuple(arg, "l", &fifo_id))
 		return NULL;					
-	returnVal = fifo_reset(fifo_id);
+	fifo_reset(fifo_id);
 	return Py_BuildValue("l", 1) ;
 }
 
@@ -168,7 +165,8 @@ static PyMethodDef SpiMethods[] =
 	{"fifoGetNbFree", fifoGetNbFree, METH_VARARGS, "Get nb free place in fifo with given id"},
 	{"fifoGetNbAvailable", fifoGetNbAvailable, METH_VARARGS, "Get nb available token in fifo with given id"},
 	{"fifoGetSize", fifoGetSize, METH_VARARGS, "Get size of fifo with given id"},
-	{"fifoWrite", fifoGetSize, METH_VARARGS, "Write in fifo with given id"},
+	{"fifoReset", fifoReset, METH_VARARGS, "Reset the fifo with given id"},
+	{"fifoWrite", fifoWrite, METH_VARARGS, "Write in fifo with given id"},
 	{"fifoRead", fifoRead, METH_VARARGS, "Read from fifo with given id"},
 	{"directRead", directRead, METH_VARARGS, "Read from with given offset"},
 	{"directWrite", directWrite, METH_VARARGS, "Write to given offset"},
