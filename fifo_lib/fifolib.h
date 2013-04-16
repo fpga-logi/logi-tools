@@ -28,7 +28,7 @@
 #define FIFO_PEEK_OFFSET	(FIFO_CMD_OFFSET + 3)
 #define FIFO_READ_OFFSET	0
 #define FIFO_WRITE_OFFSET	0
-#define FIFO_BLOCK_SIZE	256  //64 * 16 bits
+#define FIFO_BLOCK_SIZE	4094  //max spi byte per read on raspi
 #define FIFO_SPACING 128
 #else
 #define FPGA_BASE_ADDR	0x09000000
@@ -56,8 +56,8 @@ struct _fifo{
 
 int fifo_open(unsigned char id);
 void fifo_close(unsigned char id);
-int fifo_write(unsigned char id, char * data, unsigned int count);
-int fifo_read(unsigned char id, char * data, unsigned int count);
+int fifo_write(unsigned char id, unsigned char * data, unsigned int count);
+int fifo_read(unsigned char id, unsigned char * data, unsigned int count);
 unsigned int fifo_getSize(unsigned char id);
 void fifo_reset(unsigned char id);
 unsigned int fifo_getNbFree(unsigned char id);

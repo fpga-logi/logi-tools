@@ -17,16 +17,21 @@ unsigned int fifo_size ;
 static const char * device = "/dev/spidev0.0";
 static unsigned int mode = 0 ;
 static unsigned int bits = 8 ;
-static unsigned long speed = 30000000UL ;
+static unsigned long speed = 16000000UL ;
 static unsigned int delay = 0;
 
 static unsigned char com_buffer [FIFO_BLOCK_SIZE + 2] ;
-static unsigned char cmd_buffer [4];
 
 
 struct _fifo fifo_array [MAX_FIFO_NB] ;
 
-int spi_init(){
+void spi_close(void) ;
+int spi_init(void) ;
+int spi_transfer(unsigned char * send_buffer, unsigned char * receive_buffer, unsigned int size);
+int mark1_write(unsigned int add, unsigned char * data, unsigned int size, unsigned char inc);
+int mark1_read(unsigned int add, unsigned char * data, unsigned int size, unsigned char inc);
+
+int spi_init(void){
 	int ret ;
 	fd = open(device, O_RDWR);
 	if (fd < 0){
@@ -80,7 +85,7 @@ int spi_init(){
 }
 
 
-int spi_transfer(char * send_buffer, char * receive_buffer, unsigned int size)
+int spi_transfer(unsigned char * send_buffer, unsigned char * receive_buffer, unsigned int size)
 {
 	int ret ;
 	struct spi_ioc_transfer tr = {
@@ -104,19 +109,22 @@ int mark1_write(unsigned int add, unsigned char * data, unsigned int size, unsig
 	com_buffer[0] = WR0(add, inc) ;
 	com_buffer[1] = WR1(add, inc) ;
 	memcpy(&com_buffer[2], data, size);
-	spi_transfer(com_buffer, com_buffer , (size + 2));
+	return spi_transfer(com_buffer, com_buffer , (size + 2));
+	 
 }
 
 
 int mark1_read(unsigned int add, unsigned char * data, unsigned int size, unsigned char inc){
+	int ret ;	
 	com_buffer[0] = RD0(add, inc) ;
 	com_buffer[1] = RD1(add, inc) ;
-	spi_transfer(com_buffer, com_buffer , (size + 2));
+	ret = spi_transfer(com_buffer, com_buffer , (size + 2));
 	memcpy(data, &com_buffer[2], size);
+	return ret ;
 }
 
 
-void spi_close(){
+void spi_close(void){
 	close(fd);
 }
 
@@ -146,10 +154,10 @@ void fifo_close(unsigned char id){
 	}
 }
 
-int fifo_write(unsigned char id, char * data, unsigned int count){
+int fifo_write(unsigned char id, unsigned char * data, unsigned int count){
 	unsigned int transferred = 0 ;
 	unsigned int transfer_size = 0 ;
-	char * src_addr =(char *) data;
+	unsigned char * src_addr =(unsigned char *) data;
 	if(count < FIFO_BLOCK_SIZE){
 		transfer_size = count ;
 	}else{
@@ -169,10 +177,10 @@ int fifo_write(unsigned char id, char * data, unsigned int count){
 	return transferred ;
 }
 
-int fifo_read(unsigned char id, char * data, unsigned int count){
+int fifo_read(unsigned char id, unsigned char * data, unsigned int count){
 	unsigned int transferred = 0 ;
 	unsigned int transfer_size = 0 ;
-	char * trgt_addr =(char *) data;
+	unsigned char * trgt_addr =(unsigned char *) data;
 	if(count < FIFO_BLOCK_SIZE){
 		transfer_size = count ;
 	}else{
