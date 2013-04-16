@@ -49,12 +49,16 @@
 struct _fifo{
 	unsigned char id;
 	char open ;
-	unsigned int offset;
+	unsigned int address;
+	unsigned int cmd_offset;
 	unsigned int size ;
 };
 
+struct _fifo fifo_array [MAX_FIFO_NB] ;
 
 int fifo_open(unsigned char id);
+void fifo_setAddress(unsigned int id, unsigned int address);
+void fifo_setCmdOffset(unsigned int id, unsigned int offset);
 void fifo_close(unsigned char id);
 int fifo_write(unsigned char id, unsigned char * data, unsigned int count);
 int fifo_read(unsigned char id, unsigned char * data, unsigned int count);
@@ -62,9 +66,14 @@ unsigned int fifo_getSize(unsigned char id);
 void fifo_reset(unsigned char id);
 unsigned int fifo_getNbFree(unsigned char id);
 unsigned int fifo_getNbAvailable(unsigned char id);
-unsigned int direct_write(unsigned int offset, unsigned char * buffer, unsigned int length);
-unsigned int direct_read(unsigned int offset, unsigned char * buffer, unsigned int length);
+unsigned int direct_write(unsigned int address, unsigned char * buffer, unsigned int length);
+unsigned int direct_read(unsigned int address, unsigned char * buffer, unsigned int length);
 
+void fifo_setAddress(unsigned int id, unsigned int address){
+	fifo_array[id].address = address;
+}
 
-
+void fifo_setCmdOffset(unsigned int id, unsigned int offset){
+	fifo_array[id].cmd_offset = offset;
+}
 

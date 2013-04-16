@@ -23,8 +23,6 @@ static unsigned int delay = 0;
 static unsigned char com_buffer [FIFO_BLOCK_SIZE + 2] ;
 
 
-struct _fifo fifo_array [MAX_FIFO_NB] ;
-
 void spi_close(void) ;
 int spi_init(void) ;
 int spi_transfer(unsigned char * send_buffer, unsigned char * receive_buffer, unsigned int size);
@@ -133,7 +131,7 @@ int fifo_open(unsigned char id){
 	int ret ;
 	if(id >= MAX_FIFO_NB) return -1 ;
 	fifo_array[id].id = id ;
-	fifo_array[id].offset = id * FIFO_SPACING ;
+	fifo_array[id].address = id * FIFO_SPACING ;
 	fifo_array[id].open = -1 ;
 	if(fd == 0){
 		ret = spi_init();
@@ -165,7 +163,7 @@ int fifo_write(unsigned char id, unsigned char * data, unsigned int count){
 	}
 	while(transferred < count){
 		while(fifo_getNbFree(id) < transfer_size); 
-		mark1_write(fifo_array[id].offset,  src_addr, transfer_size, 0);
+		mark1_write(fifo_array[id].address,  src_addr, transfer_size, 0);
 		src_addr += transfer_size ;
 		transferred += transfer_size ;
 		if((count - transferred) < FIFO_BLOCK_SIZE){
@@ -188,7 +186,7 @@ int fifo_read(unsigned char id, unsigned char * data, unsigned int count){
 	}	
 	while(transferred < count){
 		while(fifo_getNbAvailable(id) < transfer_size); 
-		mark1_read(fifo_array[id].offset,  trgt_addr, transfer_size, 0);
+		mark1_read(fifo_array[id].address,  trgt_addr, transfer_size, 0);
 		trgt_addr += transfer_size ;
 		transferred += transfer_size ;
 		if((count - transferred) < FIFO_BLOCK_SIZE){
@@ -202,21 +200,21 @@ int fifo_read(unsigned char id, unsigned char * data, unsigned int count){
 
 void fifo_reset(unsigned char id){
 	unsigned int zero = 0 ;
-	unsigned int addA = fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET;
-	unsigned int addB = fifo_array[id].offset + FIFO_NB_AVAILABLE_B_OFFSET;
+	unsigned int addA = fifo_array[id].address + FIFO_NB_AVAILABLE_A_OFFSET;
+	unsigned int addB = fifo_array[id].address + FIFO_NB_AVAILABLE_B_OFFSET;
 	mark1_write(addA,(unsigned char *) &zero, 2, 1);
 	mark1_write(addB, (unsigned char *)&zero, 2, 1);
 }
 
 unsigned int fifo_getSize(unsigned char id){
-	unsigned int add = fifo_array[id].offset + FIFO_SIZE_OFFSET ;
+	unsigned int add = fifo_array[id].address + FIFO_SIZE_OFFSET ;
 	unsigned int fSize = 0 ;
 	mark1_read(add, (unsigned char *) &fSize, 2, 0);
 	return fSize*2 ;
 }
 
 unsigned int fifo_getNbFree(unsigned char id){
-	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_A_OFFSET ;
+	unsigned int add = fifo_array[id].address + FIFO_NB_AVAILABLE_A_OFFSET ;
 	unsigned int fFree = 0 ;
 	mark1_read(add, (unsigned char *) &fFree, 2, 0);
 	fFree = fifo_array[id].size - (fFree*2) ;
@@ -225,17 +223,17 @@ unsigned int fifo_getNbFree(unsigned char id){
 
 
 unsigned int fifo_getNbAvailable(unsigned char id){
-	unsigned int add = fifo_array[id].offset + FIFO_NB_AVAILABLE_B_OFFSET ;
+	unsigned int add = fifo_array[id].address + FIFO_NB_AVAILABLE_B_OFFSET ;
 	unsigned int fAvail = 0 ;
 	mark1_read(add, (unsigned char *) &fAvail, 2, 0);
 	return fAvail*2 ;
 }
 
-unsigned int direct_write(unsigned int offset, unsigned char * buffer, unsigned int length){
-	return mark1_write(offset, buffer, length, 1);
+unsigned int direct_write(unsigned int address, unsigned char * buffer, unsigned int length){
+	return mark1_write(address, buffer, length, 1);
 }
-unsigned int direct_read(unsigned int offset, unsigned char * buffer, unsigned int length){
-	return mark1_read(offset, buffer, length, 1);
+unsigned int direct_read(unsigned int address, unsigned char * buffer, unsigned int length){
+	return mark1_read(address, buffer, length, 1);
 }
 
 
