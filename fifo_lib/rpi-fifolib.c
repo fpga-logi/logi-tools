@@ -239,9 +239,15 @@ void fifo_setCmdOffset(unsigned int id, unsigned int offset){
 
 
 unsigned int direct_write(unsigned int address, unsigned char * buffer, unsigned int length){
+	if(fd == 0){
+		spi_init();
+	}
 	return mark1_write(address, buffer, length, 1);
 }
 unsigned int direct_read(unsigned int address, unsigned char * buffer, unsigned int length){
+	if(fd == 0){
+		spi_init();
+	}
 	return mark1_read(address, buffer, length, 1);
 }
 

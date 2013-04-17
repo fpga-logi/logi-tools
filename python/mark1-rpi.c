@@ -159,9 +159,9 @@ static PyObject* fifoGetNbAvailable(PyObject* self, PyObject* arg)
 	return Py_BuildValue("l", returnVal) ;
 }
 
-static PyMethodDef SpiMethods[] =
+static PyMethodDef mark1Methods[] =
 {
-	{"fifoOpen", fifoOpen, METH_KEYWORDS, "Open fifo with given id"},
+	{"fifoOpen", fifoOpen, METH_VARARGS, "Open fifo with given id"},
 	{"fifoGetNbFree", fifoGetNbFree, METH_VARARGS, "Get nb free place in fifo with given id"},
 	{"fifoGetNbAvailable", fifoGetNbAvailable, METH_VARARGS, "Get nb available token in fifo with given id"},
 	{"fifoGetSize", fifoGetSize, METH_VARARGS, "Get size of fifo with given id"},
@@ -170,13 +170,14 @@ static PyMethodDef SpiMethods[] =
 	{"fifoRead", fifoRead, METH_VARARGS, "Read from fifo with given id"},
 	{"directRead", directRead, METH_VARARGS, "Read from with given offset"},
 	{"directWrite", directWrite, METH_VARARGS, "Write to given offset"},
-	{"fifoClose", fifoClose, METH_NOARGS, "Close fifo with given id"},
+	{"fifoClose", fifoClose, METH_VARARGS, "Close fifo with given id"},
 	{NULL, NULL, 0, NULL}
 };
 
 PyMODINIT_FUNC
 
-initspi(void)
+initmark1Rpi(void)
 {
-	(void) Py_InitModule("spi", SpiMethods);
+	(void) Py_InitModule("mark1Rpi", mark1Methods);
+	
 }
