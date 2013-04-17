@@ -17,7 +17,7 @@ unsigned int fifo_size ;
 static const char * device = "/dev/spidev0.0";
 static unsigned int mode = 0 ;
 static unsigned int bits = 8 ;
-static unsigned long speed = 16000000UL ;
+static unsigned long speed = 32000000UL ;
 static unsigned int delay = 0;
 
 static unsigned char com_buffer [FIFO_BLOCK_SIZE + 2] ;
