@@ -154,7 +154,7 @@
 			#size-cells = <0>;
 			status			= "okay";
 			pinctrl-names	= "default";
-			pinctrl-0		= <&fpga_config_pins>;	
+			pinctrl-0	= <&fpga_config_pins>;	
 			cs-gpios = <&gpio1 5 0>;
 
 			config_interface{
@@ -170,5 +170,22 @@
 
 		};
 	};
+
+	fragment@3 {
+		target = <&ocp>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status			= "okay";
+			pinctrl-names	= "default";
+			pinctrl-0	= <&fpga_config_pins>;	
+
+			init-gpios = <&gpio3 8 1>;
+			done-gpios = <&gpio3 6 1>;
+			prog-gpios = <&gpio3 10 0>;
+
+		};
+	};
+
 
 };
