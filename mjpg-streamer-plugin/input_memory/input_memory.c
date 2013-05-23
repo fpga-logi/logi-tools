@@ -45,13 +45,15 @@
 #define INPUT_PLUGIN_NAME "MEMORY input plugin"
 
 
+#define WIDTH 160
+#define HEIGHT 120
 
 /* private functions and variables to this plugin */
 static pthread_t   worker;
 static globals     *pglobal;
 static pthread_mutex_t controls_mutex;
 static int plugin_number;
-unsigned char grab_buffer[320*240*3] ; 
+unsigned char grab_buffer[WIDTH*HEIGHT*3] ; 
 
 void *worker_thread(void *);
 void worker_cleanup(void *);
@@ -65,7 +67,7 @@ Description.: parse input parameters
 Input Value.: param contains the command line string and a pointer to globals
 Return Value: 0 if everything is ok
 ******************************************************************************/
-int input_init(input_parameter *param, int plugin_no)
+int input_init(input_parameter *param)
 {
     int i;
 
@@ -73,14 +75,6 @@ int input_init(input_parameter *param, int plugin_no)
         IPRINT("could not initialize mutex variable\n");
         exit(EXIT_FAILURE);
     }
-
-    param->argv[0] = INPUT_PLUGIN_NAME;
-
-    /* show all parameters for DBG purposes */
-    for(i = 0; i < param->argc; i++) {
-        DBG("argv[%d]=%s\n", i, param->argv[i]);
-    }
-
     
     pglobal = param->global;
 
@@ -92,11 +86,11 @@ Description.: stops the execution of the worker thread
 Input Value.: -
 Return Value: 0
 ******************************************************************************/
-int input_stop(int id)
+int input_stop(void)
 {
     DBG("will cancel input thread\n");
     pthread_cancel(worker);
-    fifo_close();
+    fifo_close(1);
     return 0;
 }
 
@@ -105,21 +99,21 @@ Description.: starts the worker thread and allocates memory
 Input Value.: -
 Return Value: 0
 ******************************************************************************/
-int input_run(int id)
+int input_run(void)
 {
-    pglobal->in[id].buf = malloc(256 * 1024);
-    if(pglobal->in[id].buf == NULL) {
+    pglobal->buf = malloc(256 * 1024);
+    if(pglobal->buf == NULL) {
         fprintf(stderr, "could not allocate memory\n");
         exit(EXIT_FAILURE);
     }
-    fifo_open();
-    if( fifo_open() < 0){
+    fifo_open(1);
+    if( fifo_open(1) < 0){
     	fprintf(stderr, "could not open fifo !  (try sudo ...)\n");
 	exit(EXIT_FAILURE);
     }
 
     if(pthread_create(&worker, 0, worker_thread, NULL) != 0) {
-        free(pglobal->in[id].buf);
+        free(pglobal->buf);
         fprintf(stderr, "could not start worker thread\n");
         exit(EXIT_FAILURE);
     }
@@ -159,18 +153,18 @@ void *worker_thread(void *arg)
     pthread_cleanup_push(worker_cleanup, NULL);
 
     while(!pglobal->stop) {
-	pthread_mutex_lock(&pglobal->in[plugin_number].db);
+	pthread_mutex_lock(&pglobal->db);
 	//TODO: need to iterate to get the vsync signal and then grab a full frame
-	fifo_reset();	
-	fifo_read(grab_buffer, 320*240*3);
+	fifo_reset(1);	
+	fifo_read(1, grab_buffer, WIDTH*HEIGHT*3);
 	i = 0 ;
 	vsync = 0 ;
-	while(!vsync && i < (320*240*3)){
+	while(!vsync && i < (WIDTH*HEIGHT*3)){
 		unsigned short * shortVal ;
 		shortVal = &grab_buffer[i];
-		if(*shortVal == 0xAA55){
+		if(*shortVal == 0x55AA){
 			i+=2 ;
-			if( (i < (320*240*2)) && grab_buffer[i+(320*240)] == 0x55){
+			if( (i < (WIDTH*HEIGHT*2)) && grab_buffer[i+(WIDTH*HEIGHT)] == 0xAA){
 				vsync = 1 ;
 				fPointer = &grab_buffer[i];	
 				break ;	
@@ -180,17 +174,17 @@ void *worker_thread(void *arg)
 	}
 	if(vsync){
 		DBG("Vsync found !\n");
-		if(!write_jpegmem_gray(fPointer, 320, 240, &pglobal->in[plugin_number].buf, &outlen, 100)){
+		if(!write_jpegmem_gray(fPointer, WIDTH, HEIGHT, &pglobal->buf, &outlen, 100)){
 			printf("compression error !\n");	
 			exit(EXIT_FAILURE);
 		}
-		pglobal->in[plugin_number].size = outlen ;
+		pglobal->size = outlen ;
 
 		/* signal fresh_frame */
-		pthread_cond_broadcast(&pglobal->in[plugin_number].db_update);
+		pthread_cond_broadcast(&pglobal->db_update);
 		
 	}
-	pthread_mutex_unlock(&pglobal->in[plugin_number].db);
+	pthread_mutex_unlock(&pglobal->db);
     }
 
     IPRINT("leaving input thread, calling cleanup function now\n");
@@ -216,7 +210,7 @@ void worker_cleanup(void *arg)
     first_run = 0;
     DBG("cleaning up ressources allocated by input thread\n");
 
-    if(pglobal->in[plugin_number].buf != NULL) free(pglobal->in[plugin_number].buf);
+    if(pglobal->buf != NULL) free(pglobal->buf);
 }
 
 

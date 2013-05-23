@@ -43,7 +43,7 @@ static PyObject* fifoWrite(PyObject* self, PyObject* arg)
 	uint32_t tupleSize = PyTuple_Size(transferTuple);
 	uint8_t tx[tupleSize];
 	PyObject* tempItem;
-	uint8_t i=0;
+	uint32_t i=0;
 	while(i < tupleSize)
 	{
 		tempItem = PyTuple_GetItem(transferTuple, i);		
@@ -102,7 +102,7 @@ static PyObject* directWrite(PyObject* self, PyObject* arg)
 	uint32_t tupleSize = PyTuple_Size(transferTuple);
 	uint8_t tx[tupleSize];
 	PyObject* tempItem;
-	uint8_t i=0;
+	uint32_t i=0;
 	while(i < tupleSize)
 	{
 		tempItem = PyTuple_GetItem(transferTuple, i);		//

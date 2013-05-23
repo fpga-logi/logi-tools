@@ -29,7 +29,7 @@
 #define FIFO_READ_OFFSET	0
 #define FIFO_WRITE_OFFSET	0
 #define FIFO_BLOCK_SIZE	4094  //max spi byte per read on raspi
-#define FIFO_SPACING 128
+#define FIFO_SPACING 8
 #else
 #define FPGA_BASE_ADDR	0x09000000
 #define FIFO_BASE_ADDR   0x00
