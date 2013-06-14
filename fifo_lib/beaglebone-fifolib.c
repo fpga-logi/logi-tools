@@ -41,7 +41,7 @@ int fifo_open(unsigned char id){
 	fifo_array[id].id = id ;
 	fifo_array[id].address = id * FIFO_SPACING ;
 	fifo_array[id].open = -1 ;
-	int fd = open("/dev/logibone0", O_RDWR | O_SYNC);
+	fd = open("/dev/logibone0", O_RDWR | O_SYNC);
 	if(fd == -1){
 		int ret ;		
 		printf("error opening /dev/logibone0 \n");
