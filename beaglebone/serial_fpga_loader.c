@@ -14,7 +14,7 @@
 #define MMAP_OFFSET (0x44C00000)
 #define MMAP_SIZE   (0x481AEFFF-MMAP_OFFSET)
 
-#define GPIO0 	(0x44E07000)
+#define GPIO0 		(0x44E07000)
 #define GPIO1		(0x4804C000)
 #define GPIO2		(0x481AC000)
 #define GPIO3		(0x481AE000)

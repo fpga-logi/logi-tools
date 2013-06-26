@@ -24,10 +24,14 @@ volatile unsigned *gpio;
 
 unsigned char configBits[1024*1024*4];
 
+unsigned cfg_save[5] ;
+
 
 #define INP_GPIO(g) *(gpio+((g)/10)) &= ~(7<<(((g)%10)*3))
 #define OUT_GPIO(g) *(gpio+((g)/10)) |=  (1<<(((g)%10)*3))
 #define SET_GPIO_ALT(g,a) *(gpio+(((g)/10))) |= (((a)<=3?(a)+4:(a)==4?3:2)<<(((g)%10)*3))
+
+#define GPIO_REG(g) *(gpio+(((g)/10)))
 
 #define GPIO_SET *(gpio+7)  // sets   bits which are 1 ignores bits which are 0
 #define GPIO_CLR *(gpio+10) // clears bits which are 1 ignores bits which are 0
@@ -65,6 +69,7 @@ void __delay_cycles(unsigned long cycles){
 }
 
 char initGPIOs(){
+	unsigned int i = 0 ;
 	if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
 		printf("can't open /dev/mem \n");
 		exit(-1);
@@ -90,6 +95,29 @@ char initGPIOs(){
 	// Always use volatile pointer!
 	gpio = (volatile unsigned *)gpio_map;
 
+	for(i = 0; i < 5 ; i ++){
+		switch(i){
+			case 0:
+				cfg_save[i] = GPIO_REG(SCLK);
+				break ;
+			case 1:
+				cfg_save[i] = GPIO_REG(MOSI);
+				break ;
+			case 2:	
+				cfg_save[i] = GPIO_REG(INIT);
+				break ;
+			case 3:
+				cfg_save[i] = GPIO_REG(PROG);
+				break ;
+			case 4:
+				cfg_save[i] = GPIO_REG(DONE);
+				break ;
+			default: 
+				break ;
+		};
+		
+	}
+
 	INP_GPIO(SCLK);
 	INP_GPIO(MOSI);
 	INP_GPIO(INIT);
@@ -104,8 +132,29 @@ char initGPIOs(){
 }
 
 void closeGPIOs(){
-	SET_GPIO_ALT(SCLK, 0);
-	SET_GPIO_ALT(MOSI, 0);
+	unsigned int i ;
+	for(i = 0; i < 5 ; i ++){
+		switch(i){
+			case 0:
+				GPIO_REG(SCLK) = cfg_save[i] ;
+				break ;
+			case 1:
+				GPIO_REG(MOSI) = cfg_save[i] ;
+				break ;
+			case 2:	
+				GPIO_REG(INIT) = cfg_save[i] ;
+				break ;
+			case 3:
+				GPIO_REG(PROG) = cfg_save[i] ;
+				break ;
+			case 4:
+				GPIO_REG(DONE) = cfg_save[i] ;
+				break ;
+			default: 
+				break ;
+		};
+		
+	}
 }
 
 void clearProgramm(){
