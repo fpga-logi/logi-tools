@@ -11,24 +11,24 @@
 #include "hw_gpmc.h"
 #include "soc_AM335x.h"
 
-#define MEM_BASE_ADDR	 0x09000000
+#define MEM_BASE_ADDR	 0x01000000
 
 
 #define HWREG(x)	(*((volatile unsigned int *)(x)))
 
 
 #define CS_ON	0
-#define CS_OFF	4
+#define CS_OFF	5
 #define ADV_ON	0
-#define ADV_OFF	1
-#define WR_CYC	5
-#define WR_ON	2
-#define WR_OFF  4
-#define RD_CYC	5
-#define OE_ON	2
-#define OE_OFF  4
-#define RD_ACC_TIME 4
-#define WRDATAONADMUX 2  //number of cycle before taking control of data bus (when add/data multiplexing)
+#define ADV_OFF	2
+#define WR_CYC	6
+#define WR_ON	3
+#define WR_OFF  5
+#define RD_CYC	6
+#define OE_ON	3
+#define OE_OFF  5
+#define RD_ACC_TIME 5
+#define WRDATAONADMUX 3  //number of cycle before taking control of data bus (when add/data multiplexing)
 
 
 //       <--7-->
@@ -81,6 +81,12 @@ void setupGPMCClock(void){
    //sleep(1);
    int fd = open("/dev/mem", O_RDWR | O_SYNC);   
 	
+
+
+
+
+
+
    volatile unsigned int * prcm_reg_pointer = (volatile unsigned int *) mmap(0, getpagesize(), PROT_READ | PROT_WRITE, MAP_SHARED ,fd, SOC_PRCM_REGS);
    if(prcm_reg_pointer == -1){
  	printf( "%s\n", strerror( errno ) );
@@ -103,11 +109,70 @@ CM_PER_GPMC_CLKCTRL_IDLEST_SHIFT));
    close(fd);
 }
 
+
+void printGPMCConfig(unsigned int * gpmc_reg_pointer, unsigned int csNum){
+	unsigned int config_val ;
+	config_val =  HWREG(gpmc_reg_pointer + GPMC_CONFIG1(csNum)/4) ;
+	printf("CONFIG1 : \n");
+	printf("\t GPMC_CONFIG1_0_DEVICESIZE : %x \n", (config_val & GPMC_CONFIG1_0_DEVICESIZE) >> GPMC_CONFIG1_0_DEVICESIZE_SHIFT);
+	printf("\t GPMC_CONFIG1_0_ATTACHEDDEVICEPAGELENGTH : %x \n", (config_val & GPMC_CONFIG1_0_ATTACHEDDEVICEPAGELENGTH) >> GPMC_CONFIG1_0_ATTACHEDDEVICEPAGELENGTH_SHIFT);
+	printf("\t GPMC_CONFIG1_0_WRITETYPE_WRSYNC : %x \n", (config_val & GPMC_CONFIG1_0_WRITETYPE) >> GPMC_CONFIG1_0_WRITETYPE_SHIFT);
+	printf("\t GPMC_CONFIG1_0_READTYPE_RDSYNC : %x \n", (config_val & GPMC_CONFIG1_0_READTYPE) >> GPMC_CONFIG1_0_READTYPE_SHIFT);
+	printf("\t GPMC_CONFIG1_ADDRDATAMUX : %x \n", (config_val & GPMC_CONFIG1_0_MUXADDDATA) >> GPMC_CONFIG1_0_MUXADDDATA_SHIFT);
+ 
+	config_val =  HWREG(gpmc_reg_pointer + GPMC_CONFIG2(csNum)/4) ;
+	printf("CONFIG2 : \n");
+	printf("\t CSONTIME : %x \n",  (config_val & GPMC_CONFIG2_0_CSONTIME));
+	printf("\t CSRDOFFTIME : %x \n",  (config_val & GPMC_CONFIG2_0_CSRDOFFTIME) >> GPMC_CONFIG2_0_CSRDOFFTIME_SHIFT);
+	printf("\t CSWROFFTIME : %x \n",  (config_val & GPMC_CONFIG2_0_CSWROFFTIME) >> GPMC_CONFIG2_0_CSWROFFTIME_SHIFT);
+
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG3(csNum)/4) ;
+	printf("CONFIG3 : \n");
+	printf("\t ADVONTIME : %x \n",  (config_val & GPMC_CONFIG3_0_ADVONTIME)>> GPMC_CONFIG3_0_ADVONTIME_SHIFT);
+	printf("\t ADVRDOFFTIME : %x \n",  (config_val & GPMC_CONFIG3_0_ADVRDOFFTIME)>> GPMC_CONFIG3_0_ADVRDOFFTIME_SHIFT);
+	printf("\t ADVRDOFFTIME : %x \n",  (config_val & GPMC_CONFIG3_0_ADVWROFFTIME) >> GPMC_CONFIG3_0_ADVWROFFTIME_SHIFT);
+
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG4(csNum)/4) ;
+	printf("CONFIG4 : \n");
+	printf("\t OEONTIME : %x \n",  (config_val & GPMC_CONFIG4_0_OEONTIME) >> GPMC_CONFIG4_0_OEONTIME_SHIFT);
+	printf("\t OEOFFTIME : %x \n",  (config_val & GPMC_CONFIG4_0_OEOFFTIME)  >> GPMC_CONFIG4_0_OEOFFTIME_SHIFT);
+	printf("\t WRONTIME : %x \n",  (config_val & GPMC_CONFIG4_0_WEONTIME) >> GPMC_CONFIG4_0_WEONTIME_SHIFT);
+	printf("\t WROFFTIME : %x \n",  (config_val & GPMC_CONFIG4_0_WEOFFTIME) >> GPMC_CONFIG4_0_WEOFFTIME_SHIFT);
+
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG5(csNum)/4) ;
+	printf("CONFIG5 : \n");
+	printf("\t RDCYCLETIME : %x \n",  (config_val & GPMC_CONFIG5_0_RDCYCLETIME) >> GPMC_CONFIG5_0_RDCYCLETIME_SHIFT);
+	printf("\t WRCYCLETIME : %x \n",  (config_val & GPMC_CONFIG5_0_WRCYCLETIME) >> GPMC_CONFIG5_0_WRCYCLETIME_SHIFT);
+	printf("\t RDACCTIME : %x \n",  (config_val & GPMC_CONFIG5_0_RDACCESSTIME) >> GPMC_CONFIG5_0_RDACCESSTIME_SHIFT);
+
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG6(csNum)/4) ;
+	printf("CONFIG6 : \n");
+	printf("\t CYCLE2CYCLESAMECSEN : %x \n",  (config_val & GPMC_CONFIG6_0_CYCLE2CYCLESAMECSEN) >> GPMC_CONFIG6_0_CYCLE2CYCLESAMECSEN_SHIFT);
+	printf("\t CYCLE2CYCLEDELAY_SHIFT : %x \n",  (config_val & GPMC_CONFIG6_0_CYCLE2CYCLEDELAY) >> GPMC_CONFIG6_0_CYCLE2CYCLEDELAY_SHIFT);
+	printf("\t WRACCESSTIME : %x \n",  (config_val & GPMC_CONFIG6_0_WRACCESSTIME) >> GPMC_CONFIG6_0_WRACCESSTIME_SHIFT);
+	
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG6(csNum)/4) ;
+	printf("CONFIG6 : \n");
+	printf("\t CYCLE2CYCLESAMECSEN : %x \n",  (config_val & GPMC_CONFIG6_0_CYCLE2CYCLESAMECSEN) >> GPMC_CONFIG6_0_CYCLE2CYCLESAMECSEN_SHIFT);
+	printf("\t CYCLE2CYCLEDELAY : %x \n",  (config_val & GPMC_CONFIG6_0_CYCLE2CYCLEDELAY) >> GPMC_CONFIG6_0_CYCLE2CYCLEDELAY_SHIFT);
+	printf("\t WRDATAONADMUXBUS : %x \n",  (config_val & GPMC_CONFIG6_0_WRDATAONADMUXBUS) >> GPMC_CONFIG6_0_WRDATAONADMUXBUS_SHIFT);
+	printf("\t WRACCESSTIME : %x \n",  (config_val & GPMC_CONFIG6_0_WRACCESSTIME) >> GPMC_CONFIG6_0_WRACCESSTIME_SHIFT);
+
+	config_val =   HWREG(gpmc_reg_pointer + GPMC_CONFIG7(csNum)/4) ;
+	printf("CONFIG7 : \n");
+	printf("\t BASEADDRESS : %x \n",  (config_val & GPMC_CONFIG7_0_BASEADDRESS) >>  GPMC_CONFIG7_0_BASEADDRESS_SHIFT);
+	printf("\t CSVALID : %x \n",  (config_val & GPMC_CONFIG7_0_CSVALID) >> GPMC_CONFIG7_0_CSVALID_SHIFT);
+	printf("\t MASKADDRESS : %x \n",  (config_val & GPMC_CONFIG7_0_MASKADDRESS) >> GPMC_CONFIG7_0_MASKADDRESS_SHIFT);
+   
+}
+
+
 void setupGPMCMuxed(void){
 	unsigned int i ;   
 	unsigned int temp = 0;
 	unsigned short int csNum = 1 ;	
 	
+
 	printf("Configuring GPMC for mux access \n");	
 
 	int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -123,6 +188,8 @@ SOC_GPMC_0_REGS);
 		printf("cannot allocate pointer gpmc_reg_pointer at %x \n", SOC_GPMC_0_REGS);
 		exit(EXIT_FAILURE);
   	}  
+	printGPMCConfig(gpmc_reg_pointer, csNum);
+	
 	printf("gpmc regs pointer allocated with address %x \n", gpmc_reg_pointer);
 	//sleep(1);
 	 //reset the GPMC module
@@ -194,10 +261,12 @@ GPMC_SYSCONFIG/4));
     printf("config 5 & 6 configured \n");
     //sleep(1);
     HWREG(gpmc_reg_pointer + GPMC_CONFIG7(csNum)/4) =
-        ( 0x09 << GPMC_CONFIG7_0_BASEADDRESS_SHIFT) | //CFG_7_BASE_ADDR
+        ( 0x01 << GPMC_CONFIG7_0_BASEADDRESS_SHIFT) | //CFG_7_BASE_ADDR
         (0x1 << GPMC_CONFIG7_0_CSVALID_SHIFT) |
         (0x0f << GPMC_CONFIG7_0_MASKADDRESS_SHIFT);  //CFG_7_MASK
 
+
+     printGPMCConfig(gpmc_reg_pointer, csNum);
      munmap((void *) gpmc_reg_pointer, getpagesize());
 
      close(fd);
