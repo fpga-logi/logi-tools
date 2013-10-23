@@ -16,4 +16,4 @@ serial_fpga_loader.o: serial_fpga_loader.c
 install: logi_loader
 	install logi_loader /usr/bin
 clean:
-	rm -rf *o serial_loader
+	rm -rf *o logi_loader
