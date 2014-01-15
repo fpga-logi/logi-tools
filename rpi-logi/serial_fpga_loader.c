@@ -270,6 +270,8 @@ int main(int argc, char ** argv){
 	//start_time = cpu_time.tv_sec ;
 	if(serialConfig(configBits, size) < 0){
 		printf("config error \n");
+		closeGPIOs();
+		fclose(fr);
 		exit(0);	
 	}else{
 		printf("config success ! \n");	
