@@ -72,7 +72,7 @@ char initGPIOs(){
 	unsigned int i = 0 ;
 	if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
 		printf("can't open /dev/mem \n");
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 
 	/* mmap GPIO */
@@ -88,8 +88,8 @@ char initGPIOs(){
 	close(mem_fd); //No need to keep mem_fd open after mmap
 
 	if (gpio_map == MAP_FAILED) {
-		printf("mmap error %d\n", (int)gpio_map);//errno also set!
-		exit(-1);
+		printf("mmap error %04x\n", (unsigned int) gpio_map);//errno also set!
+		exit(EXIT_FAILURE);
 	}
 
 	// Always use volatile pointer!
@@ -268,7 +268,6 @@ int main(int argc, char ** argv){
 	size = fread(configBits, 1, 1024*1024, fr);
 	printf("bit file size : %d \n", size);
 	//clock_gettime(CLOCK_REALTIME, &cpu_time);
-	//start_time = cpu_time.tv_sec ;
 	if(serialConfig(configBits, size) < 0){
 		printf("config error \n");
 		closeGPIOs();
