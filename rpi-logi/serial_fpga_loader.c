@@ -262,6 +262,7 @@ int main(int argc, char ** argv){
 	printf("gpio configured \n");
 	fr = fopen (argv[1], "rb");  /* open the file for reading bytes*/
 	if(fr < 0){
+		closeGPIOs();
 		printf("cannot open file %s \n", argv[1]);	
 	}
 	size = fread(configBits, 1, 1024*1024, fr);
@@ -272,7 +273,7 @@ int main(int argc, char ** argv){
 		printf("config error \n");
 		closeGPIOs();
 		fclose(fr);
-		exit(0);	
+		exit(EXIT_FAILURE);	
 	}else{
 		printf("config success ! \n");	
 	}
