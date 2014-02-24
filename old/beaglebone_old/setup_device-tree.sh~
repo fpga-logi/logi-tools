@@ -1,0 +1,3 @@
+#!/bin/sh
+dtc -O dtb -o BB-BONE-LOGIBONE-00A1.dtbo -b 0 -@ BB-BONE-LOGIBONE-00A1.dts
+sudo sh -c "echo BB-BONE-LOGIBONE:00A1 > /sys/devices/bone_capemgr.9/slots "
