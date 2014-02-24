@@ -256,14 +256,15 @@ int main(int argc, char ** argv){
 	unsigned int size = 0 ;	
 	if(argc < 2){
 		printf("Need file path \n");
-		return -1 ;
+		exit(EXIT_FAILURE);
 	}
 	initGPIOs();
 	printf("gpio configured \n");
 	fr = fopen (argv[1], "rb");  /* open the file for reading bytes*/
 	if(fr < 0){
 		closeGPIOs();
-		printf("cannot open file %s \n", argv[1]);	
+		printf("cannot open file %s \n", argv[1]);
+		exit(EXIT_FAILURE);	
 	}
 	size = fread(configBits, 1, 1024*1024, fr);
 	printf("bit file size : %d \n", size);
