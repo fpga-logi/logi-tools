@@ -1,6 +1,6 @@
 from distutils.core import setup, Extension
  
-module1 = Extension('logi', sources = ['logi.c', '../../c/logipilib.c'], include_dirs=['../../c'])
+module1 = Extension('logi', sources = ['logi.c', '../../c/logibonelib.c'], include_dirs=['../../c'])
  
 setup (name = 'PackageName',
         version = '1.0',
