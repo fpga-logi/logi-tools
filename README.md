@@ -1,4 +1,4 @@
 Logi-tools
 ==========
 
-Software tools (video stream and other), host specific code is in the rpi and beaglebone directories
+Software tools (loader, libraries) to be installed on the host platform (logipi/logibone).
