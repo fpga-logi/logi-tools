@@ -15,7 +15,7 @@ def setServoAngle(address, index, angle, max_pulse=255.0, min_angle=-45.0, max_a
 	quanta = max_pulse/(max_angle-min_angle)
         pulse = (max_pulse/2) + (quanta * angle)
 	pulse = max(min(int(round(pulse)), 255), 0)
-	self.setServoPulse(index, int(round(pulse)))
+	setServoPulse(index, int(round(pulse)))
 
 def setPWMDivider(address, divider):	
 		logi.logiWrite(address, ((divider & 0x00FF), ((divider >> 8) & 0x00FF)));

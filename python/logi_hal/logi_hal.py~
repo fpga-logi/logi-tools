@@ -15,7 +15,7 @@ def setServoAngle(address, index, angle, max_pulse=255.0, min_angle=-45.0, max_a
 	quanta = max_pulse/(max_angle-min_angle)
         pulse = (max_pulse/2) + (quanta * angle)
 	pulse = max(min(int(round(pulse)), 255), 0)
-	self.setServoPulse(index, int(round(pulse)))
+	setServoPulse(index, int(round(pulse)))
 
 def setPWMDivider(address, divider):	
 		logi.logiWrite(address, ((divider & 0x00FF), ((divider >> 8) & 0x00FF)));
@@ -33,7 +33,7 @@ def setGPIOVal(address, val):
 		logi.logiWrite(address, ((val & 0x00FF), ((val >> 8) & 0x00FF)));
 
 def getGPIOVal(address):	
-		read_val = logi.directRead(address, 2);
+		read_val = logi.logiRead(address, 2);
 		return read_val[0]+(read_val[1] << 8)
 
 def enableWatchdog(address):	
