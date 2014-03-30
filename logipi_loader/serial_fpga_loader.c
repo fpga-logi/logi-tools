@@ -266,7 +266,7 @@ int main(int argc, char ** argv){
 		printf("cannot open file %s \n", argv[1]);
 		exit(EXIT_FAILURE);	
 	}
-	printd("file %s opened \n", argv[1]);
+	printf("file %s opened \n", argv[1]);
 	size = fread(configBits, 1, 1024*1024, fr);
 	printf("bit file size : %d \n", size);
 	//clock_gettime(CLOCK_REALTIME, &cpu_time);
