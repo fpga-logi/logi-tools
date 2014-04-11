@@ -30,7 +30,7 @@ int logi_write(unsigned char * buffer, unsigned int length, unsigned int address
 	count = pwrite(fd, buffer, length, address);
 	return count ;
 }
-int wishbone_read(unsigned char * buffer, unsigned int length, unsigned int address){
+int logi_read(unsigned char * buffer, unsigned int length, unsigned int address){
 	int count = 0 ;
 	if(fd == 0){
 		logi_open();
