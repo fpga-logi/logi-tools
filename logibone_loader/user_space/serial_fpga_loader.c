@@ -11,6 +11,7 @@
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
 #include <string.h> 
+#include <math.h>
 
 #define CONFIG_CYCLES 1
 
@@ -29,19 +30,19 @@
 #define I2C_IO_EXP_IN_REG	0x00
 #define I2C_IO_EXP_OUT_REG	0x01
 
-
+#define SPI_MAX_LENGTH 4096
 int i2c_fd ;
 int spi_fd ;
 int fd;
 
 
-static const char * device = "/dev/spidev1.1";
+static const char * device = "/dev/spidev1.0";
 static unsigned int mode = 0 ;
 static unsigned int bits = 8 ;
-static unsigned long speed = 2000000UL ;
+static unsigned long speed = 16000000UL ;
 static unsigned int delay = 0;
 
-unsigned char configBits[1024*1024*4];
+unsigned char configBits[1024*1024*4], configDummy[1024*1024*4];
 
 
 char initGPIOs();
@@ -65,6 +66,12 @@ void __delay_cycles(unsigned long cycles){
 	while(cycles != 0){
 		cycles -- ;	
 	}
+}
+
+
+static inline unsigned int min(unsigned int a, unsigned int b){
+	if(a < b) return a ;
+	return b ;
 }
 
 static inline void i2c_set_pin(unsigned char pin, unsigned char val)
@@ -99,7 +106,6 @@ static inline unsigned char i2c_get_pin(unsigned char pin)
 	i2c_buffer = I2C_IO_EXP_IN_REG;
 	write(i2c_fd, &i2c_buffer, 1);
 	read(i2c_fd, &i2c_buffer, 1);
-	//printf("reading value %x \n", i2c_buffer);
 
 	return ((i2c_buffer >> pin) & 0x01);
 }
@@ -154,6 +160,7 @@ int init_spi(void){
 		printf("can't get max speed hz \n");
 		return -1 ;
 	}
+	
 
 	return 1;
 }
@@ -185,7 +192,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	unsigned long int timer = 0;
 	unsigned char * bitBuffer;
 	unsigned char i2c_buffer[4];
-
+	unsigned int write_length, write_index ;
 
 	i2c_buffer[0] = I2C_IO_EXP_CONFIG_REG;
 	i2c_buffer[1] = 0xFF;
@@ -229,11 +236,16 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 		return -1;
 	}
 	timer = 0;
-	printf("Starting configuration of %d bits \n", length * 8);
-
-
-	write(spi_fd, buffer, length);
-
+	write_length = min(length, SPI_MAX_LENGTH);
+	write_index = 0 ;
+	while(length > 0){
+		if(write(spi_fd, &buffer[write_index], write_length) < write_length){
+			printf("spi write error \n");
+		}
+		write_index += write_length ;
+		length -= write_length ;
+		write_length = min(length, SPI_MAX_LENGTH);
+	}
 
 	if (i2c_get_pin(SSI_DONE) == 0) {
 		printf("FPGA prog failed, done pin not going high \n");
@@ -256,18 +268,22 @@ int main(int argc, char ** argv){
 	struct timespec cpu_time ;
 	unsigned int size = 0 ;	
 	initGPIOs();
-	init_i2c(2);
-	
+	init_i2c(1);
+	if(init_spi() < 0){
+		 printf("cannot open spi bus \n");
+		 return -1 ;
+	}
 	fr = fopen (argv[1], "rb");  /* open the file for reading bytes*/
 	if(fr < 0){
-		printf("cannot open file %s \n", argv[1]);	
+		printf("cannot open file %s \n", argv[1]);
+		return -1 ;	
 	}
 	memset((void *) configBits, (int) 0, (size_t) 1024*1024);
 	size = fread(configBits, 1, 1024*1024, fr);
 	printf("bit file size : %d \n", size);
 	
-	//50 clock cycle more at the end of config
-	if(serialConfig(configBits, size+50) < 0){
+	//8*5 clock cycle more at the end of config
+	if(serialConfig(configBits, size+5) < 0){
 		printf("config error \n");
 		exit(0);	
 	}else{
@@ -276,6 +292,7 @@ int main(int argc, char ** argv){
 	
 	closeGPIOs();
 	fclose(fr);
+	close(spi_fd);
 	close(i2c_fd);
 	return 1;
 }
