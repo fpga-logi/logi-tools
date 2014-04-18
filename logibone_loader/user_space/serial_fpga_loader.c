@@ -186,6 +186,25 @@ void closeGPIOs(){
 }
 
 
+void resetFPGA(){
+        unsigned char * bitBuffer;
+        unsigned char i2c_buffer[4];
+
+        i2c_buffer[0] = I2C_IO_EXP_CONFIG_REG;
+        i2c_buffer[1] = 0xFF;
+        i2c_buffer[1] &= ~((1 << SSI_PROG) | (1 << MODE1) | (1 << MODE0));
+
+        if (ioctl(i2c_fd, I2C_SLAVE, I2C_IO_EXP_ADDR) < 0){
+                printf("I2C communication error ! \n");     
+        }
+        write(i2c_fd, i2c_buffer, 2); // set SSI_PROG, MODE0, MODE1 as output others as inputs
+
+        i2c_set_pin(MODE0, 1);
+        i2c_set_pin(MODE1, 1);
+        i2c_set_pin(SSI_PROG, 0);
+
+}
+
 char serialConfig(unsigned char * buffer, unsigned int length){
 	int iCfg;
 	unsigned long int i;
@@ -262,6 +281,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 
 int main(int argc, char ** argv){
 	char c ;
+	unsigned int i ;
 	FILE * fr;
 	long start_time, end_time ;
 	double diff_time ;
@@ -269,11 +289,35 @@ int main(int argc, char ** argv){
 	unsigned int size = 0 ;	
 	initGPIOs();
 	init_i2c(1);
+	
+	//parse programm args
+	for(i = 1 ; i < argc ; ){
+		if(argv[i][0] == '-'){
+			switch(argv[i][1]){
+				case '\0': 
+					i ++ ;
+					break ;
+				case 'r' :
+					resetFPGA(); 
+					closeGPIOs();
+					close(i2c_fd);
+					return 1 ;
+					break ;
+				default :
+					break ;
+			}
+		}else{
+			//last argument is file to load
+			break ;
+		}
+	}
+
+
 	if(init_spi() < 0){
 		 printf("cannot open spi bus \n");
 		 return -1 ;
 	}
-	fr = fopen (argv[1], "rb");  /* open the file for reading bytes*/
+	fr = fopen (argv[i], "rb");  /* open the file for reading bytes*/
 	if(fr < 0){
 		printf("cannot open file %s \n", argv[1]);
 		return -1 ;	
