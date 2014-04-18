@@ -62,6 +62,12 @@ char serialConfig(unsigned char * buffer, unsigned int length);
 void serialConfigWriteByte(unsigned char val);
 
 
+void printHelp(){
+	printf("Usage : logi_loader -[r|h] <bitfile> \n");
+	printf("-r	will put the FPGA in reset state (lower power consumption)\n");
+	printf("-h      will print the help \n");
+}
+
 void __delay_cycles(unsigned long cycles){
 	while(cycles != 0){
 		cycles -- ;	
@@ -303,7 +309,13 @@ int main(int argc, char ** argv){
 					close(i2c_fd);
 					return 1 ;
 					break ;
+				case 'h' :
+					printHelp();
+					return 1 ;
+					break;
 				default :
+					printHelp();
+					return 1 ;
 					break ;
 			}
 		}else{
