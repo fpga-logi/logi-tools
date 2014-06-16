@@ -1,0 +1,32 @@
+17:01:57 **** Build of configuration Debug for project gpio ****
+make all 
+Building file: ../src/cr_startup_lpc13.c
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -D__USE_CMSIS=CMSISv1p30_LPC13xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\inc" -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/cr_startup_lpc13.d" -MT"src/cr_startup_lpc13.d" -o "src/cr_startup_lpc13.o" "../src/cr_startup_lpc13.c"
+../src/cr_startup_lpc13.c:110:10: warning: taking address of expression of type 'void' [enabled by default]
+Finished building: ../src/cr_startup_lpc13.c
+ 
+Building file: ../src/gpio.c
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -D__USE_CMSIS=CMSISv1p30_LPC13xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\inc" -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/gpio.d" -MT"src/gpio.d" -o "src/gpio.o" "../src/gpio.c"
+Finished building: ../src/gpio.c
+ 
+Building file: ../src/gpiotest.c
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -D__USE_CMSIS=CMSISv1p30_LPC13xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\inc" -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/gpiotest.d" -MT"src/gpiotest.d" -o "src/gpiotest.o" "../src/gpiotest.c"
+Finished building: ../src/gpiotest.c
+ 
+Building target: gpio.axf
+Invoking: MCU Linker
+arm-none-eabi-gcc -nostdlib -L"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\Debug" -Xlinker --gc-sections -Xlinker -Map=gpio.map -mcpu=cortex-m3 -mthumb -T "gpio_Debug.ld" -o "gpio.axf"  ./src/cr_startup_lpc13.o ./src/gpio.o ./src/gpiotest.o   -lCMSISv1p30_LPC13xx
+Finished building target: gpio.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size gpio.axf; # arm-none-eabi-objcopy -O ihex gpio.axf gpio.hex ;
+   text	   data	    bss	    dec	    hex	filename
+   3160	      0	      0	   3160	    c58	gpio.axf
+ 
+
+17:01:58 Build Finished (took 961ms)
+

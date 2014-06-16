@@ -1,0 +1,156 @@
+#include "System.h"
+
+
+void FPGA_BlastConfigBytes(BYTE *Data,WORD Count);
+
+
+
+static uint8_t ConfigBuf[256];	//data read from the config file
+
+
+
+/***********************************************************************************
+ * DESCRIPTION: send the start config sequence to the FPGA
+ *
+ **********************************************************************************/
+uint8_t InitFPGA_Config( void){
+	uint32_t i = 0;
+
+	//send the FPGA config initialization sequence
+	CFG_PROG_B_INACTIVE;	//make sure the progb is in inactive state
+	//We need to make these speed indepedent some day.....
+	for(i=0;i<10000;i++);	//10000/fcy = 48mHZ = 200uS
+	CFG_PROG_B_ACTIVE;		//First Bring the PROG_B low
+	for(i=0;i<20000;i++);	//delay @48Mhz = 400uS
+	CFG_PROG_B_INACTIVE;	//Bring high
+
+	i = 0;
+	while(CFG_INIT_B_STATE == 0)	//wait for INIT_B TO go high
+	{
+		i++;
+		if(i>800000)
+		{
+		 SetLED_BlinkRate(1000);	//set blink rate to fail!
+			return CONFIG_ERROR_INIT_NOT_HIGH;
+		}
+	}
+	return (CONFIG_OK);
+
+}
+
+/***********************************************************************************
+ * DESCRIPTION: loads the FPGA with bitfile data
+ *
+ **********************************************************************************/
+int8_t FPGA_Config(char * Filename)
+{
+	uint32_t i;
+    FRESULT FS_Error;
+	FIL  MyFile;
+	uint32_t BytesRead;
+	uint8_t Junk = 0;
+	uint32_t BytesSent = 0;
+	int8_t status;
+
+	FS_Error = f_open(&MyFile,Filename,FA_READ);	//open "config.bit"
+
+	if(FS_Error != FR_OK)	//check for error
+	{
+	 return CONFIG_ERROR_FILE_NOT_FOUND;	//could not find the file
+	}
+
+	SetLED_BlinkRate(25);	//set the blink speed - shows status of loading process
+
+
+	/*	//ADDING SEPERATE FUNCTION CALL - SO THAT I2C COMMANDS CAN ACCESS SEPERATELY
+	//send the FPGA config initialization sequence
+	CFG_PROG_B_INACTIVE;	//make sure the progb is in inactive state
+	//We need to make these speed indepedent some day.....
+	for(i=0;i<10000;i++);	//10000/fcy = 48mHZ = 200uS
+	CFG_PROG_B_ACTIVE;		//First Bring the PROG_B low
+	for(i=0;i<20000;i++);	//delay @48Mhz = 400uS
+	CFG_PROG_B_INACTIVE;	//Bring high
+	i = 0;
+	while(CFG_INIT_B_STATE == 0)	//wait for INIT_B TO go high
+	{
+		i++;
+		if(i>800000)
+		{
+		 SetLED_BlinkRate(1000);	//set blink rate to fail!
+			return CONFIG_ERROR_INIT_NOT_HIGH;
+		}
+	}
+	*/
+
+	//SEND FPGA CONFIG SETUP COMMAND
+	status = InitFPGA_Config();
+	if(status<0){
+		return(status);
+	}
+
+	//Read and blast until there is nothing left in the file
+	BytesSent = 0;
+	do
+	{
+		f_read(&MyFile,&ConfigBuf[0],256, &BytesRead);		//read 256 bytes in the file  * f_read writes the number of bytes read to &BytesRead.  Will be less than 256 when done?
+		FPGA_BlastConfigBytes(&ConfigBuf[0],BytesRead);
+		BytesSent+=BytesRead;
+	}while(BytesRead==256);
+
+	f_close(&MyFile);
+
+	for(i=0;i<255;i++)
+	{
+		//Keep Sending CCLKs until done goes high
+			FPGA_BlastConfigBytes(&Junk,1);
+			if(CFG_DONE_STATE > 0)
+			{
+				//Per Configuration Guide, send some extra clocks after config is Done
+				FPGA_BlastConfigBytes(&Junk,1);
+				FPGA_BlastConfigBytes(&Junk,1);
+				FPGA_BlastConfigBytes(&Junk,1);
+				FPGA_BlastConfigBytes(&Junk,1);
+				SetLED_BlinkRate(LED_ALWAYS_ON);
+				return CONFIG_OK;
+			}
+	}
+
+	SetLED_BlinkRate(500);
+	return CONFIG_ERROR_DONE_NOT_HIGH;
+}
+
+/**************************************************************************************
+ * DESCRIPTION: Bitbang the bitstream data onto the GPIO
+ * - send n bytes of data
+ * - individually clocks each bit of data
+ **************************************************************************************/
+void FPGA_BlastConfigBytes(BYTE *Data,WORD Count)
+{
+	WORD i,j;
+	BYTE DataOut;
+	uint8_t Mask;
+
+
+	CFG_DIN_INACTIVE;
+	CFG_CCLK_INACTIVE;
+
+	for(i=0;i<Count;i++)
+	{
+		DataOut = Data[i];
+		Mask = 0x80;
+
+		for(j=0;j<8;j++)
+		{
+			if((DataOut & Mask)>0)
+				CFG_DIN_ACTIVE;
+			else
+				CFG_DIN_INACTIVE;
+
+			CFG_CCLK_ACTIVE;
+			CFG_CCLK_INACTIVE;
+
+			Mask = Mask >> 1;
+		}
+	}
+}
+

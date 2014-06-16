@@ -1,0 +1,7 @@
+18:26:42 **** Clean-only build of configuration Debug for project usbmsd_rom ****
+make clean 
+rm -rf  ./src/chan\ fat\ fs/option/ccsbcs.o  ./src/chan\ fat\ fs/diskio.o ./src/chan\ fat\ fs/ff.o  ./src/BoardSupport.o ./src/ButtonDetect.o ./src/FLASH.o ./src/FPGA_Config.o ./src/System.o ./src/Timers.o ./src/cr_startup_lpc13.o ./src/i2c_mark1.o ./src/i2cslave.o ./src/main.o ./src/msccallback.o ./src/usbdesc.o  ./src/chan\ fat\ fs/option/ccsbcs.d  ./src/chan\ fat\ fs/diskio.d ./src/chan\ fat\ fs/ff.d  ./src/BoardSupport.d ./src/ButtonDetect.d ./src/FLASH.d ./src/FPGA_Config.d ./src/System.d ./src/Timers.d ./src/cr_startup_lpc13.d ./src/i2c_mark1.d ./src/i2cslave.d ./src/main.d ./src/msccallback.d ./src/usbdesc.d  usbmsd_rom.axf
+ 
+
+18:26:43 Build Finished (took 643ms)
+

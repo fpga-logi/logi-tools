@@ -1,0 +1,677 @@
+Archive member included because of file (symbol)
+
+D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+                              ./src/System.o (SystemCoreClock)
+
+Allocating common symbols
+Common symbol       size              file
+
+I2CReadLength       0x4               ./src/i2cslave.o
+StartupDelay        0x4               ./src/System.o
+I2CWrBuffer         0x8               ./src/i2cslave.o
+DeviceInfo          0x8               ./src/System.o
+MyFileSystem        0x230             ./src/System.o
+SPIJunk             0x1               ./src/FLASH.o
+Btn0                0x8               ./src/ButtonDetect.o
+I2CWriteLength      0x4               ./src/i2cslave.o
+MscDevInfo          0x24              ./src/System.o
+I2CRdBuffer         0x8               ./src/i2cslave.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ./src/chan fat fs/option/ccsbcs.o
+ .data          0x00000000        0x0 ./src/chan fat fs/option/ccsbcs.o
+ .bss           0x00000000        0x0 ./src/chan fat fs/option/ccsbcs.o
+ .rodata        0x00000000      0x4c0 ./src/chan fat fs/option/ccsbcs.o
+ .text.ff_convert
+                0x00000000       0x88 ./src/chan fat fs/option/ccsbcs.o
+ .text.ff_wtoupper
+                0x00000000       0x70 ./src/chan fat fs/option/ccsbcs.o
+ .text          0x00000000        0x0 ./src/chan fat fs/diskio.o
+ .data          0x00000000        0x0 ./src/chan fat fs/diskio.o
+ .bss           0x00000000        0x0 ./src/chan fat fs/diskio.o
+ .text.disk_ioctl
+                0x00000000       0x7c ./src/chan fat fs/diskio.o
+ .text.disk_initialize
+                0x00000000       0x1c ./src/chan fat fs/diskio.o
+ .text.disk_write
+                0x00000000       0x8c ./src/chan fat fs/diskio.o
+ .text.disk_read
+                0x00000000       0x50 ./src/chan fat fs/diskio.o
+ .text.get_fattime
+                0x00000000       0x10 ./src/chan fat fs/diskio.o
+ .text.disk_status
+                0x00000000       0x1c ./src/chan fat fs/diskio.o
+ .text          0x00000000        0x0 ./src/chan fat fs/ff.o
+ .data          0x00000000        0x0 ./src/chan fat fs/ff.o
+ .bss           0x00000000      0x208 ./src/chan fat fs/ff.o
+ .text.mem_cpy  0x00000000       0x50 ./src/chan fat fs/ff.o
+ .text.mem_set  0x00000000       0x44 ./src/chan fat fs/ff.o
+ .text.mem_cmp  0x00000000       0x70 ./src/chan fat fs/ff.o
+ .text.chk_chr  0x00000000       0x38 ./src/chan fat fs/ff.o
+ .text.move_window
+                0x00000000       0xd4 ./src/chan fat fs/ff.o
+ .text.sync     0x00000000      0x180 ./src/chan fat fs/ff.o
+ .text.clust2sect
+                0x00000000       0x44 ./src/chan fat fs/ff.o
+ .text.get_fat  0x00000000      0x1a0 ./src/chan fat fs/ff.o
+ .text.put_fat  0x00000000      0x25c ./src/chan fat fs/ff.o
+ .text.remove_chain
+                0x00000000       0xb0 ./src/chan fat fs/ff.o
+ .text.create_chain
+                0x00000000      0x130 ./src/chan fat fs/ff.o
+ .text.dir_sdi  0x00000000      0x118 ./src/chan fat fs/ff.o
+ .text.dir_next
+                0x00000000      0x1e0 ./src/chan fat fs/ff.o
+ .rodata        0x00000000       0xa4 ./src/chan fat fs/ff.o
+ .text.cmp_lfn  0x00000000      0x100 ./src/chan fat fs/ff.o
+ .text.pick_lfn
+                0x00000000       0xf0 ./src/chan fat fs/ff.o
+ .text.fit_lfn  0x00000000      0x110 ./src/chan fat fs/ff.o
+ .text.gen_numname
+                0x00000000      0x108 ./src/chan fat fs/ff.o
+ .text.sum_sfn  0x00000000       0x50 ./src/chan fat fs/ff.o
+ .text.dir_find
+                0x00000000      0x170 ./src/chan fat fs/ff.o
+ .text.dir_read
+                0x00000000      0x148 ./src/chan fat fs/ff.o
+ .text.dir_register
+                0x00000000      0x2b0 ./src/chan fat fs/ff.o
+ .text.dir_remove
+                0x00000000       0xa0 ./src/chan fat fs/ff.o
+ .text.create_name
+                0x00000000      0x3c4 ./src/chan fat fs/ff.o
+ .text.get_fileinfo
+                0x00000000      0x234 ./src/chan fat fs/ff.o
+ .text.follow_path
+                0x00000000      0x114 ./src/chan fat fs/ff.o
+ .text.check_fs
+                0x00000000       0xe8 ./src/chan fat fs/ff.o
+ .text.chk_mounted
+                0x00000000      0x600 ./src/chan fat fs/ff.o
+ .text.validate
+                0x00000000       0x54 ./src/chan fat fs/ff.o
+ .text.f_mount  0x00000000       0x64 ./src/chan fat fs/ff.o
+ .text.f_open   0x00000000      0x35c ./src/chan fat fs/ff.o
+ .text.f_read   0x00000000      0x2f0 ./src/chan fat fs/ff.o
+ .text.f_write  0x00000000      0x358 ./src/chan fat fs/ff.o
+ .text.f_sync   0x00000000      0x1c0 ./src/chan fat fs/ff.o
+ .text.f_close  0x00000000       0x2c ./src/chan fat fs/ff.o
+ .text.f_lseek  0x00000000      0x2ec ./src/chan fat fs/ff.o
+ .text.f_opendir
+                0x00000000       0xf0 ./src/chan fat fs/ff.o
+ .text.f_readdir
+                0x00000000       0xa8 ./src/chan fat fs/ff.o
+ .text.f_stat   0x00000000       0x84 ./src/chan fat fs/ff.o
+ .text.f_getfree
+                0x00000000      0x1dc ./src/chan fat fs/ff.o
+ .text.f_truncate
+                0x00000000      0x12c ./src/chan fat fs/ff.o
+ .text.f_unlink
+                0x00000000      0x1b0 ./src/chan fat fs/ff.o
+ .text.f_mkdir  0x00000000      0x374 ./src/chan fat fs/ff.o
+ .text.f_chmod  0x00000000       0xc8 ./src/chan fat fs/ff.o
+ .text.f_utime  0x00000000       0xd4 ./src/chan fat fs/ff.o
+ .text.f_rename
+                0x00000000      0x260 ./src/chan fat fs/ff.o
+ .text          0x00000000        0x0 ./src/BoardSupport.o
+ .data          0x00000000        0x0 ./src/BoardSupport.o
+ .bss           0x00000000        0x0 ./src/BoardSupport.o
+ .text.InitGPIO_Passive_Mode
+                0x00000000      0x194 ./src/BoardSupport.o
+ .text.InitGPIO_LPC_Mode
+                0x00000000      0x240 ./src/BoardSupport.o
+ .text.InitMiscCFG_State
+                0x00000000       0x6c ./src/BoardSupport.o
+ .text.InitGPIO_State
+                0x00000000       0xfc ./src/BoardSupport.o
+ .text          0x00000000        0x0 ./src/ButtonDetect.o
+ .data          0x00000000        0x0 ./src/ButtonDetect.o
+ .bss           0x00000000        0x0 ./src/ButtonDetect.o
+ .text.ButtonProcessAll
+                0x00000000       0x30 ./src/ButtonDetect.o
+ .text.ButtonPressed
+                0x00000000       0x30 ./src/ButtonDetect.o
+ .text.ButtonReleased
+                0x00000000       0x40 ./src/ButtonDetect.o
+ .text.ButtonProcess
+                0x00000000       0xfc ./src/ButtonDetect.o
+ .text          0x00000000        0x0 ./src/FLASH.o
+ .data          0x00000000        0x0 ./src/FLASH.o
+ .bss           0x00000000        0x0 ./src/FLASH.o
+ .text.InitFLASH
+                0x00000000       0xe4 ./src/FLASH.o
+ .text.M25PXX_RDID
+                0x00000000       0xc8 ./src/FLASH.o
+ .text.M25PXX_RDSR
+                0x00000000       0xac ./src/FLASH.o
+ .text.M25PXX_WRSR
+                0x00000000       0xc0 ./src/FLASH.o
+ .text.M25PXX_WREN
+                0x00000000       0x80 ./src/FLASH.o
+ .text.M25PXX_WRDI
+                0x00000000       0x80 ./src/FLASH.o
+ .text.MP25PE_PageErase
+                0x00000000      0x13c ./src/FLASH.o
+ .text.MP25PE_PageProgram
+                0x00000000      0x194 ./src/FLASH.o
+ .text.MP25PE_Read
+                0x00000000      0x184 ./src/FLASH.o
+ .text.BlockUntilFlashOperationComplete
+                0x00000000       0x2c ./src/FLASH.o
+ COMMON         0x00000000        0x1 ./src/FLASH.o
+ .text          0x00000000        0x0 ./src/FPGA_Config.o
+ .data          0x00000000        0x0 ./src/FPGA_Config.o
+ .bss           0x00000000      0x100 ./src/FPGA_Config.o
+ .text.InitFPGA_Config
+                0x00000000      0x10c ./src/FPGA_Config.o
+ .text.FPGA_Config
+                0x00000000      0x184 ./src/FPGA_Config.o
+ .text.FPGA_BlastConfigBytes
+                0x00000000      0x15c ./src/FPGA_Config.o
+ .text          0x00000000        0x0 ./src/System.o
+ .text.NVIC_SetPriority
+                0x00000000       0x5c ./src/System.o
+ .text.SysTick_Config
+                0x00000000       0x64 ./src/System.o
+ .text.InitSystemStateMachine
+                0x00000000       0x18 ./src/System.o
+ .text.TransitionToState
+                0x00000000       0x94 ./src/System.o
+ .text.StartDel
+                0x00000000       0x2c ./src/System.o
+ .text.SetLED_BlinkRate
+                0x00000000       0x20 ./src/System.o
+ .text.InitUSB_MSC
+                0x00000000      0x14c ./src/System.o
+ .text          0x00000000        0x0 ./src/Timers.o
+ .data          0x00000000        0x0 ./src/Timers.o
+ .text.TimerTest
+                0x00000000       0xac ./src/Timers.o
+ .text.GetTick  0x00000000       0x18 ./src/Timers.o
+ .text.TimerStop
+                0x00000000       0x38 ./src/Timers.o
+ .text.TimerIsOn
+                0x00000000       0x44 ./src/Timers.o
+ .text          0x00000000        0x0 ./src/cr_startup_lpc13.o
+ .data          0x00000000        0x0 ./src/cr_startup_lpc13.o
+ .bss           0x00000000        0x0 ./src/cr_startup_lpc13.o
+ .text.SysTick_Handler
+                0x00000000        0x8 ./src/cr_startup_lpc13.o
+ .text          0x00000000        0x0 ./src/i2cslave.o
+ .data          0x00000000        0x0 ./src/i2cslave.o
+ .rodata        0x00000000        0xc ./src/i2cslave.o
+ .text.I2C_process_task
+                0x00000000      0x138 ./src/i2cslave.o
+ .text          0x00000000        0x0 ./src/main.o
+ .data          0x00000000        0x0 ./src/main.o
+ .bss           0x00000000        0x0 ./src/main.o
+ .text.Basic_Tasks
+                0x00000000       0x34 ./src/main.o
+ .text          0x00000000        0x0 ./src/msccallback.o
+ .data          0x00000000        0x0 ./src/msccallback.o
+ .bss           0x00000000      0x200 ./src/msccallback.o
+ .rodata        0x00000000       0x1c ./src/msccallback.o
+ .text.MSC_MemoryRead
+                0x00000000       0x54 ./src/msccallback.o
+ .text.MSC_MemoryWrite
+                0x00000000       0x60 ./src/msccallback.o
+ .text          0x00000000        0x0 ./src/usbdesc.o
+ .data          0x00000000        0x0 ./src/usbdesc.o
+ .bss           0x00000000        0x0 ./src/usbdesc.o
+ .rodata        0x00000000       0x70 ./src/usbdesc.o
+ .text          0x00000000        0x0 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+ .bss           0x00000000        0x0 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+ .text.SystemCoreClockUpdate
+                0x00000000      0x35c D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+MFlash32         0x00000000         0x00008000         xr
+RamLoc8          0x10000180         0x00001e80         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/chan fat fs/option/ccsbcs.o
+LOAD ./src/chan fat fs/diskio.o
+LOAD ./src/chan fat fs/ff.o
+LOAD ./src/BoardSupport.o
+LOAD ./src/ButtonDetect.o
+LOAD ./src/FLASH.o
+LOAD ./src/FPGA_Config.o
+LOAD ./src/System.o
+LOAD ./src/Timers.o
+LOAD ./src/cr_startup_lpc13.o
+LOAD ./src/i2cslave.o
+LOAD ./src/main.o
+LOAD ./src/msccallback.o
+LOAD ./src/usbdesc.o
+LOAD D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a
+START GROUP
+LOAD c:/nxp/lpcxpresso_5.0.12_1083/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_c.a
+LOAD c:/nxp/lpcxpresso_5.0.12_1083/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libcr_semihost.a
+LOAD c:/nxp/lpcxpresso_5.0.12_1083/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv7-m\libcr_eabihelpers.a
+END GROUP
+                0x00008000                __top_MFlash32 = 0x8000
+                0x10002000                __top_RamLoc8 = 0x10002000
+
+.text           0x00000000     0x10ec
+ *(.isr_vector)
+ .isr_vector    0x00000000      0x124 ./src/cr_startup_lpc13.o
+                0x00000000                g_pfnVectors
+ *(.text*)
+ .text.InitGPIO
+                0x00000124      0x2e8 ./src/BoardSupport.o
+                0x00000124                InitGPIO
+ .text.InitButtonDetectAll
+                0x0000040c       0x18 ./src/ButtonDetect.o
+                0x0000040c                InitButtonDetectAll
+ .text.InitButtonDetect
+                0x00000424       0x3c ./src/ButtonDetect.o
+                0x00000424                InitButtonDetect
+ .text.SysTick_Handler
+                0x00000460      0x1b4 ./src/System.o
+                0x00000460                SysTick_Handler
+ .text.USB_IRQHandler
+                0x00000614       0x18 ./src/System.o
+                0x00000614                USB_IRQHandler
+ .text.InitTimers
+                0x0000062c       0x2c ./src/Timers.o
+                0x0000062c                InitTimers
+ .text.DelayMS  0x00000658       0x38 ./src/Timers.o
+                0x00000658                DelayMS
+ .text.RegisterTimer
+                0x00000690       0x68 ./src/Timers.o
+                0x00000690                RegisterTimer
+ .text.TimerStart
+                0x000006f8       0x38 ./src/Timers.o
+                0x000006f8                TimerStart
+ .text.Reset_Handler
+                0x00000730       0x78 ./src/cr_startup_lpc13.o
+                0x00000730                ResetISR
+                0x00000730                Reset_Handler
+ .text.NMI_Handler
+                0x000007a8        0x8 ./src/cr_startup_lpc13.o
+                0x000007a8                NMI_Handler
+ .text.HardFault_Handler
+                0x000007b0        0x8 ./src/cr_startup_lpc13.o
+                0x000007b0                HardFault_Handler
+ .text.MemManage_Handler
+                0x000007b8        0x8 ./src/cr_startup_lpc13.o
+                0x000007b8                MemManage_Handler
+ .text.BusFault_Handler
+                0x000007c0        0x8 ./src/cr_startup_lpc13.o
+                0x000007c0                BusFault_Handler
+ .text.UsageFault_Handler
+                0x000007c8        0x8 ./src/cr_startup_lpc13.o
+                0x000007c8                UsageFault_Handler
+ .text.SVCall_Handler
+                0x000007d0        0x8 ./src/cr_startup_lpc13.o
+                0x000007d0                SVCall_Handler
+ .text.DebugMon_Handler
+                0x000007d8        0x8 ./src/cr_startup_lpc13.o
+                0x000007d8                DebugMon_Handler
+ .text.PendSV_Handler
+                0x000007e0        0x8 ./src/cr_startup_lpc13.o
+                0x000007e0                PendSV_Handler
+ .text.IntDefaultHandler
+                0x000007e8        0x8 ./src/cr_startup_lpc13.o
+                0x000007e8                TIMER16_0_IRQHandler
+                0x000007e8                UART_IRQHandler
+                0x000007e8                TIMER32_0_IRQHandler
+                0x000007e8                TIMER32_1_IRQHandler
+                0x000007e8                PIOINT1_IRQHandler
+                0x000007e8                SSP_IRQHandler
+                0x000007e8                TIMER16_1_IRQHandler
+                0x000007e8                USB_FIQHandler
+                0x000007e8                ADC_IRQHandler
+                0x000007e8                PIOINT2_IRQHandler
+                0x000007e8                BOD_IRQHandler
+                0x000007e8                WAKEUP_IRQHandler
+                0x000007e8                PIOINT0_IRQHandler
+                0x000007e8                WDT_IRQHandler
+                0x000007e8                PIOINT3_IRQHandler
+                0x000007e8                FMC_IRQHandler
+ .text.NVIC_EnableIRQ
+                0x000007f0       0x38 ./src/i2cslave.o
+ .text.I2C_IRQHandler
+                0x00000828      0x38c ./src/i2cslave.o
+                0x00000828                I2C_IRQHandler
+ .text.I2CSlaveInit
+                0x00000bb4       0xe4 ./src/i2cslave.o
+                0x00000bb4                I2CSlaveInit
+ .text.Init_i2c_buf
+                0x00000c98       0x4c ./src/i2cslave.o
+                0x00000c98                Init_i2c_buf
+ .text.NVIC_SetPriority
+                0x00000ce4       0x5c ./src/main.o
+ .text.SysTick_Config
+                0x00000d40       0x64 ./src/main.o
+ .text.main     0x00000da4      0x13c ./src/main.o
+                0x00000da4                main
+ .text.__NOP    0x00000ee0        0xc D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+ .text.SystemInit
+                0x00000eec      0x200 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+                0x00000eec                SystemInit
+ *(.rodata*)
+
+.glue_7         0x000010ec        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x000010ec        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x000010ec        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x000010ec        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x000010ec                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x000010ec                __exidx_end = .
+                0x000010ec                _etext = .
+
+.data           0x10000180        0x8 load address 0x000010ec
+                0x10000180                _data = .
+ *(vtable)
+ *(.data*)
+ .data          0x10000180        0x4 ./src/System.o
+                0x10000180                rom
+ .data          0x10000184        0x4 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+                0x10000184                SystemCoreClock
+                0x10000188                _edata = .
+
+.bss            0x10000188      0x2cc load address 0x000010f4
+                0x10000188                _bss = .
+ *(.bss*)
+ .bss           0x10000188        0x8 ./src/System.o
+                0x10000188                SystemState
+                0x1000018e                i
+ .bss           0x10000190       0x38 ./src/Timers.o
+                0x10000190                LED_BlinkSpeed
+                0x10000192                LED_BlinkTick
+                0x10000194                ntimers
+                0x10000198                tick
+                0x1000019c                timers
+                0x100001c6                timer_pb
+                0x100001c7                flag_pb
+ .bss           0x100001c8        0xc ./src/i2cslave.o
+                0x100001c8                i2c_cmd_rx
+                0x100001ca                i2c_slave_cfg_init_status
+                0x100001cc                I2CSlaveState
+                0x100001d0                RdIndex
+                0x100001d1                WrIndex
+                0x100001d2                rec
+                0x100001d3                temp1
+ *(COMMON)
+ COMMON         0x100001d4        0x8 ./src/ButtonDetect.o
+                0x100001d4                Btn0
+ COMMON         0x100001dc      0x260 ./src/System.o
+                0x100001dc                StartupDelay
+                0x100001e0                DeviceInfo
+                0x100001e8                MyFileSystem
+                0x10000418                MscDevInfo
+ COMMON         0x1000043c       0x18 ./src/i2cslave.o
+                0x1000043c                I2CReadLength
+                0x10000440                I2CWrBuffer
+                0x10000448                I2CWriteLength
+                0x1000044c                I2CRdBuffer
+                0x10000454                _ebss = .
+
+.cr_heap        0x10000454        0x0
+                0x10000454                end = .
+                0x10000454                _pvHeapStart = .
+                0x10002000                _vRamTop = __top_RamLoc8
+                0x10001ff0                _vStackTop = (_vRamTop - 0x10)
+OUTPUT(Mark1_DragDrop_Config.axf elf32-littlearm)
+
+.debug_info     0x00000000     0x7147
+ .debug_info    0x00000000      0x165 ./src/chan fat fs/option/ccsbcs.o
+ .debug_info    0x00000165      0x29f ./src/chan fat fs/diskio.o
+ .debug_info    0x00000404     0x1ad5 ./src/chan fat fs/ff.o
+ .debug_info    0x00001ed9      0x91e ./src/BoardSupport.o
+ .debug_info    0x000027f7      0x351 ./src/ButtonDetect.o
+ .debug_info    0x00002b48      0xb3e ./src/FLASH.o
+ .debug_info    0x00003686      0x5d1 ./src/FPGA_Config.o
+ .debug_info    0x00003c57     0x10c8 ./src/System.o
+ .debug_info    0x00004d1f      0x40a ./src/Timers.o
+ .debug_info    0x00005129      0x221 ./src/cr_startup_lpc13.o
+ .debug_info    0x0000534a      0xeaf ./src/i2cslave.o
+ .debug_info    0x000061f9      0x75a ./src/main.o
+ .debug_info    0x00006953      0x1c1 ./src/msccallback.o
+ .debug_info    0x00006b14       0xc3 ./src/usbdesc.o
+ .debug_info    0x00006bd7      0x570 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_abbrev   0x00000000     0x13d8
+ .debug_abbrev  0x00000000       0xa9 ./src/chan fat fs/option/ccsbcs.o
+ .debug_abbrev  0x000000a9       0xdd ./src/chan fat fs/diskio.o
+ .debug_abbrev  0x00000186      0x16e ./src/chan fat fs/ff.o
+ .debug_abbrev  0x000002f4      0x128 ./src/BoardSupport.o
+ .debug_abbrev  0x0000041c      0x180 ./src/ButtonDetect.o
+ .debug_abbrev  0x0000059c      0x1ca ./src/FLASH.o
+ .debug_abbrev  0x00000766      0x184 ./src/FPGA_Config.o
+ .debug_abbrev  0x000008ea      0x2b6 ./src/System.o
+ .debug_abbrev  0x00000ba0      0x16c ./src/Timers.o
+ .debug_abbrev  0x00000d0c       0xd6 ./src/cr_startup_lpc13.o
+ .debug_abbrev  0x00000de2      0x1fd ./src/i2cslave.o
+ .debug_abbrev  0x00000fdf      0x1aa ./src/main.o
+ .debug_abbrev  0x00001189       0xe4 ./src/msccallback.o
+ .debug_abbrev  0x0000126d       0x7b ./src/usbdesc.o
+ .debug_abbrev  0x000012e8       0xf0 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_loc      0x00000000     0x189a
+ .debug_loc     0x00000000       0x70 ./src/chan fat fs/option/ccsbcs.o
+ .debug_loc     0x00000070      0x144 ./src/chan fat fs/diskio.o
+ .debug_loc     0x000001b4      0x9e8 ./src/chan fat fs/ff.o
+ .debug_loc     0x00000b9c       0xdc ./src/BoardSupport.o
+ .debug_loc     0x00000c78      0x138 ./src/ButtonDetect.o
+ .debug_loc     0x00000db0      0x20c ./src/FLASH.o
+ .debug_loc     0x00000fbc       0xaa ./src/FPGA_Config.o
+ .debug_loc     0x00001066      0x1c8 ./src/System.o
+ .debug_loc     0x0000122e      0x1a8 ./src/Timers.o
+ .debug_loc     0x000013d6      0x1f0 ./src/cr_startup_lpc13.o
+ .debug_loc     0x000015c6      0x100 ./src/i2cslave.o
+ .debug_loc     0x000016c6       0xc8 ./src/main.o
+ .debug_loc     0x0000178e       0x70 ./src/msccallback.o
+ .debug_loc     0x000017fe       0x9c D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_aranges  0x00000000      0x508
+ .debug_aranges
+                0x00000000       0x28 ./src/chan fat fs/option/ccsbcs.o
+ .debug_aranges
+                0x00000028       0x48 ./src/chan fat fs/diskio.o
+ .debug_aranges
+                0x00000070      0x180 ./src/chan fat fs/ff.o
+ .debug_aranges
+                0x000001f0       0x40 ./src/BoardSupport.o
+ .debug_aranges
+                0x00000230       0x48 ./src/ButtonDetect.o
+ .debug_aranges
+                0x00000278       0x68 ./src/FLASH.o
+ .debug_aranges
+                0x000002e0       0x30 ./src/FPGA_Config.o
+ .debug_aranges
+                0x00000310       0x60 ./src/System.o
+ .debug_aranges
+                0x00000370       0x58 ./src/Timers.o
+ .debug_aranges
+                0x000003c8       0x70 ./src/cr_startup_lpc13.o
+ .debug_aranges
+                0x00000438       0x40 ./src/i2cslave.o
+ .debug_aranges
+                0x00000478       0x38 ./src/main.o
+ .debug_aranges
+                0x000004b0       0x28 ./src/msccallback.o
+ .debug_aranges
+                0x000004d8       0x30 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_ranges   0x00000000      0x428
+ .debug_ranges  0x00000000       0x18 ./src/chan fat fs/option/ccsbcs.o
+ .debug_ranges  0x00000018       0x38 ./src/chan fat fs/diskio.o
+ .debug_ranges  0x00000050      0x170 ./src/chan fat fs/ff.o
+ .debug_ranges  0x000001c0       0x30 ./src/BoardSupport.o
+ .debug_ranges  0x000001f0       0x38 ./src/ButtonDetect.o
+ .debug_ranges  0x00000228       0x58 ./src/FLASH.o
+ .debug_ranges  0x00000280       0x20 ./src/FPGA_Config.o
+ .debug_ranges  0x000002a0       0x50 ./src/System.o
+ .debug_ranges  0x000002f0       0x48 ./src/Timers.o
+ .debug_ranges  0x00000338       0x60 ./src/cr_startup_lpc13.o
+ .debug_ranges  0x00000398       0x30 ./src/i2cslave.o
+ .debug_ranges  0x000003c8       0x28 ./src/main.o
+ .debug_ranges  0x000003f0       0x18 ./src/msccallback.o
+ .debug_ranges  0x00000408       0x20 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_line     0x00000000     0x57da
+ .debug_line    0x00000000       0xe3 ./src/chan fat fs/option/ccsbcs.o
+ .debug_line    0x000000e3      0x552 ./src/chan fat fs/diskio.o
+ .debug_line    0x00000635      0xe31 ./src/chan fat fs/ff.o
+ .debug_line    0x00001466      0x5f5 ./src/BoardSupport.o
+ .debug_line    0x00001a5b      0x663 ./src/ButtonDetect.o
+ .debug_line    0x000020be      0x5f9 ./src/FLASH.o
+ .debug_line    0x000026b7      0x60d ./src/FPGA_Config.o
+ .debug_line    0x00002cc4      0x6c5 ./src/System.o
+ .debug_line    0x00003389      0x678 ./src/Timers.o
+ .debug_line    0x00003a01      0x473 ./src/cr_startup_lpc13.o
+ .debug_line    0x00003e74      0x630 ./src/i2cslave.o
+ .debug_line    0x000044a4      0x5d7 ./src/main.o
+ .debug_line    0x00004a7b      0x4f1 ./src/msccallback.o
+ .debug_line    0x00004f6c      0x411 ./src/usbdesc.o
+ .debug_line    0x0000537d      0x45d D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_macinfo  0x00000000    0x71523
+ .debug_macinfo
+                0x00000000     0x2885 ./src/chan fat fs/option/ccsbcs.o
+ .debug_macinfo
+                0x00002885     0x7753 ./src/chan fat fs/diskio.o
+ .debug_macinfo
+                0x00009fd8     0x3336 ./src/chan fat fs/ff.o
+ .debug_macinfo
+                0x0000d30e     0x9491 ./src/BoardSupport.o
+ .debug_macinfo
+                0x0001679f     0x95b2 ./src/ButtonDetect.o
+ .debug_macinfo
+                0x0001fd51     0x77c1 ./src/FLASH.o
+ .debug_macinfo
+                0x00027512     0x9491 ./src/FPGA_Config.o
+ .debug_macinfo
+                0x000309a3     0x9551 ./src/System.o
+ .debug_macinfo
+                0x00039ef4     0x9517 ./src/Timers.o
+ .debug_macinfo
+                0x0004340b     0x3d30 ./src/cr_startup_lpc13.o
+ .debug_macinfo
+                0x0004713b     0x95d4 ./src/i2cslave.o
+ .debug_macinfo
+                0x0005070f     0x9491 ./src/main.o
+ .debug_macinfo
+                0x00059ba0     0x7f9d ./src/msccallback.o
+ .debug_macinfo
+                0x00061b3d     0x80d9 ./src/usbdesc.o
+ .debug_macinfo
+                0x00069c16     0x790d D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_str      0x00000000     0x17d8
+ .debug_str     0x00000000      0x12f ./src/chan fat fs/option/ccsbcs.o
+                                0x15c (size before relaxing)
+ .debug_str     0x0000012f      0x10d ./src/chan fat fs/diskio.o
+                                0x22d (size before relaxing)
+ .debug_str     0x0000023c      0x476 ./src/chan fat fs/ff.o
+                                0x614 (size before relaxing)
+ .debug_str     0x000006b2      0x4da ./src/BoardSupport.o
+                                0x622 (size before relaxing)
+ .debug_str     0x00000b8c       0xa2 ./src/ButtonDetect.o
+                                0x23f (size before relaxing)
+ .debug_str     0x00000c2e       0xec ./src/FLASH.o
+                                0x6b8 (size before relaxing)
+ .debug_str     0x00000d1a       0x87 ./src/FPGA_Config.o
+                                0x427 (size before relaxing)
+ .debug_str     0x00000da1      0x62f ./src/System.o
+                                0xb33 (size before relaxing)
+ .debug_str     0x000013d0       0x9e ./src/Timers.o
+                                0x252 (size before relaxing)
+ .debug_str     0x0000146e       0xf8 ./src/cr_startup_lpc13.o
+                                0x23e (size before relaxing)
+ .debug_str     0x00001566      0x153 ./src/i2cslave.o
+                                0xabb (size before relaxing)
+ .debug_str     0x000016b9       0x1a ./src/main.o
+                                0x625 (size before relaxing)
+ .debug_str     0x000016d3       0x4e ./src/msccallback.o
+                                0x1b7 (size before relaxing)
+ .debug_str     0x00001721       0x11 ./src/usbdesc.o
+                                0x15f (size before relaxing)
+ .debug_str     0x00001732       0xa6 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+                                0x44f (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 ./src/chan fat fs/option/ccsbcs.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/chan fat fs/diskio.o
+ .comment       0x00000000       0x71 ./src/chan fat fs/ff.o
+ .comment       0x00000000       0x71 ./src/BoardSupport.o
+ .comment       0x00000000       0x71 ./src/ButtonDetect.o
+ .comment       0x00000000       0x71 ./src/FLASH.o
+ .comment       0x00000000       0x71 ./src/FPGA_Config.o
+ .comment       0x00000000       0x71 ./src/System.o
+ .comment       0x00000000       0x71 ./src/Timers.o
+ .comment       0x00000000       0x71 ./src/cr_startup_lpc13.o
+ .comment       0x00000000       0x71 ./src/i2cslave.o
+ .comment       0x00000000       0x71 ./src/main.o
+ .comment       0x00000000       0x71 ./src/msccallback.o
+ .comment       0x00000000       0x71 ./src/usbdesc.o
+ .comment       0x00000000       0x71 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x33 ./src/chan fat fs/option/ccsbcs.o
+ .ARM.attributes
+                0x00000033       0x33 ./src/chan fat fs/diskio.o
+ .ARM.attributes
+                0x00000066       0x33 ./src/chan fat fs/ff.o
+ .ARM.attributes
+                0x00000099       0x33 ./src/BoardSupport.o
+ .ARM.attributes
+                0x000000cc       0x33 ./src/ButtonDetect.o
+ .ARM.attributes
+                0x000000ff       0x33 ./src/FLASH.o
+ .ARM.attributes
+                0x00000132       0x33 ./src/FPGA_Config.o
+ .ARM.attributes
+                0x00000165       0x33 ./src/System.o
+ .ARM.attributes
+                0x00000198       0x33 ./src/Timers.o
+ .ARM.attributes
+                0x000001cb       0x33 ./src/cr_startup_lpc13.o
+ .ARM.attributes
+                0x000001fe       0x33 ./src/i2cslave.o
+ .ARM.attributes
+                0x00000231       0x33 ./src/main.o
+ .ARM.attributes
+                0x00000264       0x33 ./src/msccallback.o
+ .ARM.attributes
+                0x00000297       0x33 ./src/usbdesc.o
+ .ARM.attributes
+                0x000002ca       0x33 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)
+
+.debug_frame    0x00000000      0xe5c
+ .debug_frame   0x00000000       0x48 ./src/chan fat fs/option/ccsbcs.o
+ .debug_frame   0x00000048       0xbc ./src/chan fat fs/diskio.o
+ .debug_frame   0x00000104      0x58c ./src/chan fat fs/ff.o
+ .debug_frame   0x00000690       0x88 ./src/BoardSupport.o
+ .debug_frame   0x00000718       0xb8 ./src/ButtonDetect.o
+ .debug_frame   0x000007d0      0x12c ./src/FLASH.o
+ .debug_frame   0x000008fc       0x6c ./src/FPGA_Config.o
+ .debug_frame   0x00000968      0x110 ./src/System.o
+ .debug_frame   0x00000a78       0xf0 ./src/Timers.o
+ .debug_frame   0x00000b68      0x120 ./src/cr_startup_lpc13.o
+ .debug_frame   0x00000c88       0x9c ./src/i2cslave.o
+ .debug_frame   0x00000d24       0x84 ./src/main.o
+ .debug_frame   0x00000da8       0x50 ./src/msccallback.o
+ .debug_frame   0x00000df8       0x64 D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug\libCMSISv1p30_LPC13xx.a(system_LPC13xx.o)

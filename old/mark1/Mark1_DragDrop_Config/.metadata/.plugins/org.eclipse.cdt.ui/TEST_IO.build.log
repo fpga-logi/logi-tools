@@ -1,0 +1,30 @@
+19:09:45 **** Incremental Build of configuration Debug for project TEST_IO ****
+make all 
+Building file: ../src/main.c
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -D__REDLIB__ -DDEBUG -D__CODE_RED -D__USE_CMSIS=CMSISv1p30_LPC13xx -I"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\inc" -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/main.d" -MT"src/main.d" -o "src/main.o" "../src/main.c"
+../src/main.c: In function 'main':
+Finished building: ../src/main.c
+../src/main.c:42:23: warning: unused variable 'pb_val2' [-Wunused-variable]
+ 
+../src/main.c:40:11: warning: unused variable 'port2' [-Wunused-variable]
+../src/main.c:39:63: warning: unused variable 'temp6' [-Wunused-variable]
+../src/main.c:39:52: warning: unused variable 'temp5' [-Wunused-variable]
+../src/main.c:39:41: warning: unused variable 'temp4' [-Wunused-variable]
+../src/main.c:39:31: warning: unused variable 'temp3' [-Wunused-variable]
+../src/main.c:39:21: warning: variable 'temp2' set but not used [-Wunused-but-set-variable]
+../src/main.c:38:11: warning: unused variable 'del' [-Wunused-variable]
+Building target: TEST_IO.axf
+Invoking: MCU Linker
+arm-none-eabi-gcc -nostdlib -L"D:\My Documents\Dropbox\Prj\Valent\LOGI-FAMILY\Mark1\SRC\MCU\RA1_2_new5\CMSISv1p30_LPC13xx\Debug" -Xlinker -Map="TEST_IO.map" -Xlinker --gc-sections -mcpu=cortex-m3 -mthumb -T "TEST_IO_Debug.ld" -o "TEST_IO.axf"  ./src/cr_startup_lpc13.o ./src/main.o   -lCMSISv1p30_LPC13xx
+Finished building target: TEST_IO.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "TEST_IO.axf"; # arm-none-eabi-objcopy -O binary "TEST_IO.axf" "TEST_IO.bin" ; checksum -p LPC1343 -d "TEST_IO.bin";
+   text	   data	    bss	    dec	    hex	filename
+   1628	      0	      0	   1628	    65c	TEST_IO.axf
+ 
+
+19:09:46 Build Finished (took 603ms)
+

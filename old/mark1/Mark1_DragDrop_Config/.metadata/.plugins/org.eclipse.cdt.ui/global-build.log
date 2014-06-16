@@ -1,0 +1,24 @@
+16:47:30 **** Incremental Build of configuration Debug for project CMSISv1p30_LPC13xx ****
+make all 
+make: Nothing to be done for `all'.
+16:47:31 **** Incremental Build of configuration Debug for project Mark1_DragDrop_Config ****
+make all 
+Building file: ../src/main.c
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -D__USE_CMSIS=CMSISv1p30_LPC13xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\Mark1_DragDrop_Config\src\chan fat fs" -I"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\Mark1_DragDrop_Config\src\chan fat fs\option" -I"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\Mark1_DragDrop_Config\src" -I"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\Mark1_DragDrop_Config\inc" -I"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\inc" -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/main.d" -MT"src/main.d" -o "src/main.o" "../src/main.c"
+../src/main.c:126:5: warning: "/*" within comment [-Wcomment]
+../src/main.c:143:5: warning: "/*" within comment [-Wcomment]
+../src/main.c:153:5: warning: "/*" within comment [-Wcomment]
+Finished building: ../src/main.c
+ 
+Building target: Mark1_DragDrop_Config.axf
+Invoking: MCU Linker
+arm-none-eabi-gcc -nostdlib -L"D:\Dropbox\Prj\Valent\LOGI-FAMILY\SRC\Mark1\MCU\Mark1_DragDrop_Config\CMSISv1p30_LPC13xx\Debug" -Xlinker --gc-sections -Xlinker -Map=Mark1_DragDrop_Config.map -mcpu=cortex-m3 -mthumb -T ../ld/usb_buffer.ld -o "Mark1_DragDrop_Config.axf"  ./src/chan\ fat\ fs/option/ccsbcs.o  ./src/chan\ fat\ fs/diskio.o ./src/chan\ fat\ fs/ff.o  ./src/BoardSupport.o ./src/ButtonDetect.o ./src/FLASH.o ./src/FPGA_Config.o ./src/System.o ./src/Timers.o ./src/cr_startup_lpc13.o ./src/i2cslave.o ./src/main.o ./src/msccallback.o ./src/usbdesc.o   -lCMSISv1p30_LPC13xx
+Finished building target: Mark1_DragDrop_Config.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size Mark1_DragDrop_Config.axf; arm-none-eabi-objcopy -O binary Mark1_DragDrop_Config.axf Mark1_DragDrop_Config.bin; checksum Mark1_DragDrop_Config.bin;
+   text	   data	    bss	    dec	    hex	filename
+   4332	      8	    716	   5056	   13c0	Mark1_DragDrop_Config.axf
+ 
