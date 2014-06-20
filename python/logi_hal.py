@@ -39,6 +39,14 @@ def getGPIOVal(address):
 		read_val = logi.logiRead(address, 2);
 		return read_val[0]+(read_val[1] << 8)
 
+def readRegister(address):	
+		read_val = logi.logiRead(address, 2);
+		return read_val[0]+(read_val[1] << 8)
+
+def writeRegister(address, val):	
+		read_val = logi.logiWrite(address, ((val & 0x00FF), ((val >> 8) & 0x00FF)))
+
+
 def enableWatchdog(address):	
 		logi.logiWrite(address, (0x01, 0x00) );
 
