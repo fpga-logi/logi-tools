@@ -6,6 +6,14 @@ all : logipilib.o logibonelib.o
 clean:
 	rm -f *.a *.o
 
+install_logipi : liblogipi.so
+	mv liblogipi.so /usr/lib/liblogi.so
+	cp logilib.h /usr/include
+
+install_logibone : liblogipi.so
+	mv liblogibone.so /usr/lib/liblogi.so
+	cp logilib.h /usr/include
+
 logipilib.o: logipilib.c
 	$(CC) -c $(CFLAGS) logipilib.c
 
