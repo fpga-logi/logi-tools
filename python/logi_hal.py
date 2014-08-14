@@ -2,6 +2,7 @@ import fcntl, os, time, struct, binascii, math
 import logi
 
 
+
 def setServoPulse(address, index, pos):	
 		logi.logiWrite(address+(index * 2), ((pos & 0x00FF), ((pos >> 8) & 0x00FF)));
 
@@ -56,7 +57,15 @@ def disableWatchdog(address):
 def resetWatchdog(address):	
 		logi.logiWrite(address, (0x01, 0x00) );
 		
+def setSegBCD(address, val):
+	decode_sseg = [0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0$
+	buf = ()
+	for i in val :
+		buf = buf + (decode_sseg[i],)
+	while len(buf) < 6 :
+		buf = buf + (0x00,)
+	logi.logiWrite(address, buf)
 
-	
+		
 
 
