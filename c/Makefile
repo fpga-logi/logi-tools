@@ -10,7 +10,7 @@ install_logipi : liblogipi.so
 	mv liblogipi.so /usr/lib/liblogi.so
 	cp logilib.h /usr/include
 
-install_logibone : liblogipi.so
+install_logibone : liblogibone.so
 	mv liblogibone.so /usr/lib/liblogi.so
 	cp logilib.h /usr/include
 
