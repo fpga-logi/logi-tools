@@ -296,6 +296,11 @@ int main(int argc, char ** argv){
 	initGPIOs();
 	init_i2c(1);
 	
+	if (argc == 1) {
+		printHelp();
+		exit(EXIT_FAILURE);
+	}
+
 	//parse programm args
 	for(i = 1 ; i < argc ; ){
 		if(argv[i][0] == '-'){
