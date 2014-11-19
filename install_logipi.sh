@@ -20,7 +20,7 @@ cd ${SCRIPT_DIR}
 
 echo "Install python support"
 sudo apt-get install python-dev
-cd logi-tools/python/logipi
+cd python/logipi
 python2 setup.py build
 sudo python2 setup.py install
 cd ${SCRIPT_DIR}
@@ -28,8 +28,4 @@ cd ${SCRIPT_DIR}
 echo "Install logi C library"
 cd c
 sudo make install_logipi
-
-
-echo "Running Blink Led demo"
-logi_loader blink_led.bit
 
