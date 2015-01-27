@@ -58,7 +58,7 @@ def resetWatchdog(address):
 		logi.logiWrite(address, (0x01, 0x00) );
 		
 def setSegBCD(address, val):
-	decode_sseg = [0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0$
+	decode_sseg = [0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0x00]
 	buf = ()
 	for i in val :
 		buf = buf + (decode_sseg[i],)
@@ -67,5 +67,13 @@ def setSegBCD(address, val):
 	logi.logiWrite(address, buf)
 
 		
+def setLedMatrixContent(address, pixels):
+	buffer = [0]*len(pixels)
+        i = 0
+        for p in pixels:
+                buffer[i] = p & 0x00FF
+                buffer[i+1] = p >> 8
+                i = i + 2
+	logi.logiWrite(address,  tuple(buffer))
 
 
