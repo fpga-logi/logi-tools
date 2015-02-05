@@ -292,20 +292,11 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	}
 
 	i2c_buffer[0] = I2C_IO_EXP_CONFIG_REG;
-	//i2c_buffer[1] = 0xDC;
-	//write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
+	i2c_buffer[1] = 0xDC;
+	write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
 	
 	return length;
 }
-
-void pin_default_state( void){
-	i2c_set_pin(MUX_OEn, 0);
-	i2c_set_pin(MODE1, 0);
-	
-	
-}
-
-
 
 //MAIN FUNCTION******************************************************
 int main(int argc, char ** argv){
@@ -374,13 +365,8 @@ int main(int argc, char ** argv){
 		printf("config success ! \n");	
 	}
 	
-	
-	pin_default_state();
-	
-	
 	fclose(fr);
 	close(spi_fd);
 	close(i2c_fd);
-	
 	return 1;
 }
