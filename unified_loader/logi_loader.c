@@ -74,7 +74,7 @@ void printHelp(){
 //DELAY N CYCLES
 void __delay_cycles(unsigned long cycles){
 	while(cycles != 0){
-		cycles -- ;
+		cycles -- ;	
 	}
 }
 
@@ -114,6 +114,7 @@ static inline unsigned char i2c_get_pin(unsigned char pin)
 	if (ioctl(i2c_fd, I2C_SLAVE, I2C_IO_EXP_ADDR) < 0) {
 		return ;
 	}
+		
 	i2c_buffer = I2C_IO_EXP_IN_REG;
 	write(i2c_fd, &i2c_buffer, 1);
 	read(i2c_fd, &i2c_buffer, 1);
@@ -198,7 +199,7 @@ void resetFPGA(){
 	i2c_buffer[1] &= ~((1 << SSI_PROG) | (1 << MODE1) | (1 << MUX_OEn));
 
         if (ioctl(i2c_fd, I2C_SLAVE, I2C_IO_EXP_ADDR) < 0){
-                printf("I2C communication error ! \n");
+                printf("I2C communication error ! \n");     
         }
         write(i2c_fd, i2c_buffer, 2); // set SSI_PROG,MODE1, MUX_OEn as output others as inputs
 
@@ -215,6 +216,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	unsigned char * bitBuffer;
 	unsigned char i2c_buffer[4];
 	unsigned int write_length, write_index ;
+	
 
 	//configuring inputs and outputs
 	i2c_buffer[0] = I2C_IO_EXP_CONFIG_REG;
@@ -239,7 +241,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 
 	i2c_set_pin(MUX_OEn, 0);
 	i2c_set_pin(MODE1, 1);
-	i2c_set_pin(SSI_PROG, 0);
+	i2c_set_pin(SSI_PROG, 1);
 
 	__delay_cycles(100 * SSI_DELAY);
 
@@ -290,11 +292,20 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	}
 
 	i2c_buffer[0] = I2C_IO_EXP_CONFIG_REG;
-	i2c_buffer[1] &= ~((1 << SSI_PROG)) ;
-	write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
+	//i2c_buffer[1] = 0xDC;
+	//write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
 	
 	return length;
 }
+
+void pin_default_state( void){
+	i2c_set_pin(MUX_OEn, 0);
+	i2c_set_pin(MODE1, 0);
+	
+	
+}
+
+
 
 //MAIN FUNCTION******************************************************
 int main(int argc, char ** argv){
@@ -358,12 +369,18 @@ int main(int argc, char ** argv){
 	//8*5 clock cycle more at the end of config
 	if(serialConfig(configBits, size+5) < 0){
 		printf("config error \n");
-		exit(0);
+		exit(0);	
 	}else{
-		printf("config success ! \n");
+		printf("config success ! \n");	
 	}
+	
+	
+	pin_default_state();
+	
+	
 	fclose(fr);
 	close(spi_fd);
 	close(i2c_fd);
+	
 	return 1;
 }
