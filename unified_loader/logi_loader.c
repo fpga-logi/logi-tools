@@ -290,7 +290,13 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	i2c_buffer[0] = fpga_loader->expander_cfg;
 	//i2c_buffer[1] = 0xDC;
 	i2c_buffer[1] = 0xFF;
-	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin) | (1 << fpga_loader->mode1_pin) );
+	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin));
+	if(fpga_loader->flash_rst_pin >= 0){
+		i2c_buffer[1] &= ~(fpga_loader->flash_rst_pin);
+	}
+	if(fpga_loader->flash_rst_pin >= 0){
+		i2c_buffer[1] &= ~(fpga_loader->flash_rst_pin);
+	}
 	write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
 	
 	return length;
@@ -336,7 +342,7 @@ int main(int argc, char ** argv){
 	struct timespec cpu_time ;
 	unsigned int size = 0 ;	
 	
-
+	init_loader();
 	/*
 	//parse programm args
 	for(i = 1 ; i < argc ; ){
