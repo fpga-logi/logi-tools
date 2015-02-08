@@ -10,7 +10,14 @@
 #define CONFIG_CYCLES 1
 
 #define BCM2708_PERI_BASE        0x20000000
+#define BCM2836_PERI_BASE	 0x3f000000
+
+
+#ifndef PI2
 #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
+#else
+#define GPIO_BASE                (BCM2836_PERI_BASE + 0x200000)
+#endif
 
 #define PAGE_SIZE (4*1024)
 #define BLOCK_SIZE (4*1024)
