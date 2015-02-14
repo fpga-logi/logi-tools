@@ -6,7 +6,7 @@ CFLAGS=-c #-Wall
 LDFLAGS= #-lrt
 
 #version flag
-PI_VER=
+PI_VER ?= B
 
 all: logi_loader
 
