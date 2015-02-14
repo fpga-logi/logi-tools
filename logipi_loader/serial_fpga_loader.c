@@ -183,6 +183,14 @@ inline void clearDout(){
 	GPIO_CLR = 1<<MOSI;
 }
 
+void resetFPGA(){
+        unsigned char * bitBuffer;
+        unsigned char i2c_buffer[4];
+
+        clearProgramm();
+
+}
+
 
 char serialConfig(unsigned char * buffer, unsigned int length){
 	unsigned long int i ;
@@ -248,6 +256,7 @@ void serialConfigWriteByte(unsigned char val){
 
 
 int main(int argc, char ** argv){
+	unsigned int i ;
 	char c ;
 	FILE * fr;
 	long start_time, end_time ;
@@ -260,7 +269,30 @@ int main(int argc, char ** argv){
 	}
 	initGPIOs();
 	printf("gpio configured \n");
-	fr = fopen (argv[1], "rb");  /* open the file for reading bytes*/
+
+	//parse programm args
+	for(i = 1 ; i < argc ; ){
+		if(argv[i][0] == '-'){
+			switch(argv[i][1]){
+				case '\0': 
+					i ++ ;
+					break ;
+				case 'r' :
+					resetFPGA(); 
+					closeGPIOs();
+					return 1 ;
+					break ;
+				default :
+					break ;
+			}
+		}else{
+			//last argument is file to load
+			break ;
+		}
+	}
+
+
+	fr = fopen (argv[i], "rb");  /* open the file for reading bytes*/
 	if(fr == 0){
 		closeGPIOs();
 		printf("cannot open file %s \n", argv[1]);
