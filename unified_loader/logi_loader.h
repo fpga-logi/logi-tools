@@ -1,5 +1,7 @@
 
-struct loader_struct{
+
+
+struct i2c_loader_struct{
 	char * name ;
 	char * spi_path ;
 	char has_expander ;
@@ -15,8 +17,11 @@ struct loader_struct{
 	char init_pin;
 	char flash_rst_pin;
 	char mux_oen_pin;
-
 };
+
+
+
+
 
 // UNIFIED REGISTERS FOR LOGIBONE/LOGIPI R1.5
 #define LOGI_R1_5_SSI_DONE 2

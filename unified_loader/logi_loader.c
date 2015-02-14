@@ -21,7 +21,7 @@
 
 
 //LOADER
-struct loader_struct * fpga_loader ;
+struct i2c_loader_struct * fpga_loader ;
 
 //FILE DESCRIPTORS
 int i2c_fd ;
@@ -69,7 +69,7 @@ static inline unsigned int min(unsigned int a, unsigned int b){
 }
 
 //SET PIN ON I2C EXPANDER
-static inline void i2c_set_pin(struct loader_struct * ldr_ptr, unsigned char pin, unsigned char val)
+static inline void i2c_set_pin(struct i2c_loader_struct * ldr_ptr, unsigned char pin, unsigned char val)
 {
 	unsigned char i2c_buffer[2];
 
@@ -91,7 +91,7 @@ static inline void i2c_set_pin(struct loader_struct * ldr_ptr, unsigned char pin
 }
 
 //GET PIN ON I2C EXPANDER
-static inline unsigned char i2c_get_pin(struct loader_struct * ldr_ptr, unsigned char pin)
+static inline unsigned char i2c_get_pin(struct i2c_loader_struct * ldr_ptr, unsigned char pin)
 {
 	unsigned char i2c_buffer;
 
