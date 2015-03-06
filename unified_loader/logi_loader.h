@@ -54,7 +54,7 @@ struct i2c_loader_struct{
 
 
 
-struct loader_struct logibone_r1_loader = {"LOGIBONE_R1",
+struct i2c_loader_struct logibone_r1_loader = {"LOGIBONE_R1",
 	"/dev/spidev1.0", 
 	1,
 	 "/dev/i2c-1",
@@ -72,7 +72,7 @@ struct loader_struct logibone_r1_loader = {"LOGIBONE_R1",
 	};
 
 
-struct loader_struct logibone_r1_5_loader = {"LOGIBONE_R1.5",
+struct i2c_loader_struct logibone_r1_5_loader = {"LOGIBONE_R1.5",
 	"/dev/spidev1.0", 
 	1,
 	 "/dev/i2c-1", 
@@ -88,7 +88,7 @@ struct loader_struct logibone_r1_5_loader = {"LOGIBONE_R1.5",
 	LOGI_R1_5_FLASH_RST,
 	LOGI_R1_5_MUX_OEn
 	};
-struct loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
+struct i2c_loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 	"/dev/spidev0.1", 
 	1,
 	 "/dev/i2c-1", 
@@ -106,5 +106,5 @@ struct loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 	};
 
 
-struct loader_struct * logi_variants [] = {&logibone_r1_loader, &logibone_r1_5_loader};
+struct i2c_loader_struct * logi_variants [] = {&logibone_r1_loader, &logibone_r1_5_loader};
 
