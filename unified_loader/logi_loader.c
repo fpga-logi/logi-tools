@@ -33,7 +33,7 @@ int fd;
 #define SPI_MAX_LENGTH 4096
 static unsigned int spi_mode = 0 ;
 static unsigned int spi_bits = 8 ;
-static unsigned long spi_speed = 16000000UL ;
+static unsigned long spi_speed = 8000000UL ;
 static unsigned int delay = 0;
 
 //CONFIG BIT ARRAY
@@ -290,7 +290,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	i2c_buffer[0] = fpga_loader->expander_cfg;
 	//i2c_buffer[1] = 0xDC;
 	i2c_buffer[1] = 0xFF;
-	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin));
+	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin) | (1 << fpga_loader->mode1_pin));
 	if(fpga_loader->flash_rst_pin >= 0){
 		i2c_buffer[1] &= ~(fpga_loader->flash_rst_pin);
 	}

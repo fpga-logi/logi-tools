@@ -106,5 +106,5 @@ struct i2c_loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 	};
 
 
-struct i2c_loader_struct * logi_variants [] = {&logibone_r1_loader, &logibone_r1_5_loader};
+struct i2c_loader_struct * logi_variants [] = {&logibone_r1_5_loader, &logibone_r1_loader};
 
