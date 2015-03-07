@@ -286,19 +286,17 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 		printf("FPGA prog failed, done pin not going high \n");
 		return -1;
 	}
-
+	/*
 	i2c_buffer[0] = fpga_loader->expander_cfg;
-	//i2c_buffer[1] = 0xDC;
 	i2c_buffer[1] = 0xFF;
 	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin) | (1 << fpga_loader->mode1_pin));
 	if(fpga_loader->flash_rst_pin >= 0){
 		i2c_buffer[1] &= ~(fpga_loader->flash_rst_pin);
 	}
-	if(fpga_loader->flash_rst_pin >= 0){
-		i2c_buffer[1] &= ~(fpga_loader->flash_rst_pin);
-	}
 	write(i2c_fd, i2c_buffer, 2); // set all unused config pins as input (keeping mode pins and PROG as output)
-	
+	*/		
+	/*i2c_set_pin(fpga_loader, fpga_loader->mode1_pin, 1);
+	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);*/
 	return length;
 }
 
