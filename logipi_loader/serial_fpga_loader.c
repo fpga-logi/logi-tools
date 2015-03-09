@@ -276,6 +276,11 @@ int main(int argc, char ** argv){
 		printf("Need file path \n");
 		exit(EXIT_FAILURE);
 	}
+	#ifdef PI2
+		printf("Loader was compiled for PIB version 2 (quad-core version)\n");
+	#else
+		printf("Loader was compiled for PIB/B+/A/A+ \n");
+	#endif
 	initGPIOs();
 	printf("gpio configured \n");
 
