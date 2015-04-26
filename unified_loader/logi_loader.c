@@ -13,6 +13,7 @@
 #include <string.h> 
 #include <math.h>
 #include "logi_loader.h"
+#include "i2c_loader.h"
 
 //PROCESS
 #define CONFIG_CYCLES 1
@@ -20,11 +21,7 @@
 
 
 
-//LOADER
-struct i2c_loader_struct * fpga_loader ;
-
 //FILE DESCRIPTORS
-int i2c_fd ;
 int spi_fd ;
 int fd;
 
@@ -40,10 +37,7 @@ static unsigned int delay = 0;
 unsigned char configBits[1024*1024*4], configDummy[1024*1024*4];
 
 //PROTOTYPES
-char checkDone();
-char checkInit();
-void __delay_cycles(unsigned long cycles);
-int init_i2c(char * path, char expander_addr);
+
 int init_spi(char * path);
 char serialConfig(unsigned char * buffer, unsigned int length);
 void serialConfigWriteByte(unsigned char val);
@@ -66,44 +60,6 @@ void __delay_cycles(unsigned long cycles){
 static inline unsigned int min(unsigned int a, unsigned int b){
 	if(a < b) return a ;
 	return b ;
-}
-
-//SET PIN ON I2C EXPANDER
-static inline void i2c_set_pin(struct i2c_loader_struct * ldr_ptr, unsigned char pin, unsigned char val)
-{
-	unsigned char i2c_buffer[2];
-
-	if (ioctl(i2c_fd, I2C_SLAVE, ldr_ptr->expander_address) < 0) {
-		return ; 
-	}
-
-	i2c_buffer[0] = ldr_ptr->expander_out;
-	write(i2c_fd, i2c_buffer, 1);
-	read(i2c_fd, &i2c_buffer[1], 1);
-
-	if (val == 1) {
-		i2c_buffer[1] |= (1 << pin);
-	} else {
-		i2c_buffer[1] &= ~(1 << pin);
-	}
-
-	write(i2c_fd, i2c_buffer, 2);
-}
-
-//GET PIN ON I2C EXPANDER
-static inline unsigned char i2c_get_pin(struct i2c_loader_struct * ldr_ptr, unsigned char pin)
-{
-	unsigned char i2c_buffer;
-
-	if (ioctl(i2c_fd, I2C_SLAVE, ldr_ptr->expander_address) < 0) {
-		return ;
-	}
-		
-	i2c_buffer = ldr_ptr->expander_in;
-	write(i2c_fd, &i2c_buffer, 1);
-	read(i2c_fd, &i2c_buffer, 1);
-
-	return ((i2c_buffer >> pin) & 0x01);
 }
 
 //INIT SPI DEVICE
@@ -161,44 +117,9 @@ int init_spi(char * path){
 	return 1;
 }
 
-
-//INIT I2C DEVICE
-int init_i2c(char * path, char expander_addr){
-  i2c_fd = open(path, O_RDWR);
-  if (i2c_fd < 0) {
-	// ERROR HANDLING; you can check errno to see what went wrong 
-	printf("could not open I2C device : %s!\n", path);
-	close(i2c_fd);
-   	return -1 ;
-  }
-  if (ioctl(i2c_fd, I2C_SLAVE, expander_addr) < 0){
-		printf("I2C communication error ! \n");     
-		close(i2c_fd);
-		return -1 ;
-  }
-  return 0 ;
-}
-
-
 //RESET THE FPGA - COMMNAD LINE OPTION
 void resetFPGA(){
-        unsigned char * bitBuffer;
-        unsigned char i2c_buffer[4];
-
-        i2c_buffer[0] = fpga_loader->expander_cfg;
-	i2c_buffer[1] = 0xFF;
-	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin) | (1 << fpga_loader->mode1_pin) );
-	if(fpga_loader->mux_oen_pin >= 0){
-		i2c_buffer[1] &= ~(1 << fpga_loader->mux_oen_pin);
-	}
-	
-        if (ioctl(i2c_fd, I2C_SLAVE, fpga_loader->expander_address) < 0){
-                printf("I2C communication error ! \n");     
-        }
-        write(i2c_fd, i2c_buffer, 2); // set SSI_PROG,MODE1, MUX_OEn as output others as inputs
-       
-	i2c_set_pin(fpga_loader, fpga_loader->mode1_pin, 1);
-        i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 0);
+	set_i2c_progb();
 }
 
 //CONFIGURE THE FPGA USING SLAVE SERIAL CONFIGURATION INTERFACE
@@ -209,58 +130,30 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	unsigned char * bitBuffer;
 	unsigned char i2c_buffer[4];
 	unsigned int write_length, write_index ;
-	
 
-	//configuring inputs and outputs
-	i2c_buffer[0] = fpga_loader->expander_cfg;
-	i2c_buffer[1] = 0xFF;
-	i2c_buffer[1] &= ~((1 << fpga_loader->prog_pin) | (1 << fpga_loader->mode1_pin) );
-	if(fpga_loader->mux_oen_pin >= 0){
-		i2c_buffer[1] &= ~(1 << fpga_loader->mux_oen_pin);
-	}
-
-	if (ioctl(i2c_fd, I2C_SLAVE, fpga_loader->expander_address) < 0){
-		return -1 ;	
-	}
-	write(i2c_fd, i2c_buffer, 2); // set SSI_PROG, MODE1, MUX_OEn as output others as inputs
-
-	/*
-	//configuring pull-ups
-	i2c_buffer[0] = 0x02;
-	i2c_buffer[1] = 0xFF;
-	if (ioctl(i2c_fd, I2C_SLAVE, I2C_IO_EXP_ADDR) < 0){
-		return -1 ;	
-	}
-	write(i2c_fd, i2c_buffer, 2); 
-	*/
-
-
-	i2c_set_pin(fpga_loader, fpga_loader->mux_oen_pin, 0);
-	i2c_set_pin(fpga_loader, fpga_loader->mode1_pin, 1);
-	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);
 
 	__delay_cycles(100 * SSI_DELAY);
 
-	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);
+	set_i2c_progb();
 	__delay_cycles(10 * SSI_DELAY);
-	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 0);
+	clear_i2c_progb();
 	__delay_cycles(5 * SSI_DELAY);
 
-	while (i2c_get_pin(fpga_loader, fpga_loader->init_pin) > 0 && timer < 200)
+	while (get_i2c_init()> 0 && timer < 200)
 		timer++; // waiting for init pin to go down
 
 	if (timer >= 200) {
 		printf("FPGA did not answer to prog request, init pin not going low \n");
-		i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);
+		set_i2c_progb();
 		return -1;
 	}
 
 	timer = 0;
 	__delay_cycles(5 * SSI_DELAY);
-	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);
+	set_i2c_progb();
 
 	
-	while (i2c_get_pin(fpga_loader, fpga_loader->init_pin) == 0 && timer < 256) { // need to find a better way ...
+	while (get_i2c_init() == 0 && timer < 256) { // need to find a better way ...
 		timer++; // waiting for init pin to go up
 	}
 	
@@ -282,7 +175,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 		write_length = min(length, SPI_MAX_LENGTH);
 	}
 
-	if (i2c_get_pin(fpga_loader, fpga_loader->done_pin) == 0) {
+	if (get_i2c_done() == 0) {
 		printf("FPGA prog failed, done pin not going high \n");
 		return -1;
 	}
@@ -302,27 +195,18 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 
 
 int init_loader(){
+	struct i2c_loader_struct * fpga_loader ; 
 #ifdef LOGIBONE
 	int success = 0;
 	int retry = 0 ;
 	char dummy = 0 ;
+	
 	while(!success & retry < sizeof(logi_variants) ){
-		fpga_loader = logi_variants[retry] ;	
-		if(init_i2c(fpga_loader->i2c_path, fpga_loader->expander_address) >= 0){
-			printf("Testing board variant %s \n", fpga_loader-> name);
-		}
-		if (ioctl(i2c_fd, I2C_SLAVE, fpga_loader->expander_address) < 0){
-			retry ++ ;
-			printf("I2C error !! \n", fpga_loader-> name);
-		}
-		
-		if(read(i2c_fd, &dummy, 1) != 1){
-			printf("Switching to next variant \n");
-			success = 0 ;
-			retry ++ ;
+		if(init_i2c_loader(logi_variants[retry]) < 0){
+			retry ++ ;	
 		}else{
-			printf("Board variant is %s \n", fpga_loader-> name);
-			success = 1 ;
+			fpga_loader = logi_variants[retry] ;
+			success = 1 ;		
 		}
 	}
 	if(retry >= sizeof(logi_variants)){
@@ -331,12 +215,12 @@ int init_loader(){
 	}
 #else
 	fpga_loader = &logipi_r1_5_loader ; // if not logibone, board is logipi
-	if(init_i2c(fpga_loader->i2c_path, fpga_loader->expander_address) < 0){
-		 printf("Cannot detect LOGI-PI \n");
-		 return -1 ;
+	if(init_i2c_loader(fpga_loader) < 0){
+		printf("Cannot detect LOGI-PI \n");
+	 	return -1 ;
 	}
-	printf("Board variant is %s \n", fpga_loader-> name);
 #endif
+	printf("Board variant is %s \n", fpga_loader-> name);
 	if(init_spi(fpga_loader->spi_path) < 0){
 		 printf("can't open SPI bus \n");
 		 return -1 ;
@@ -395,13 +279,13 @@ int main(int argc, char ** argv){
 	//8*5 clock cycle more at the end of config
 	if(serialConfig(configBits, size+5) < 0){
 		printf("config error \n");
-		exit(0);	
+
 	}else{
 		printf("config success ! \n");	
 	}
 	
 	fclose(fr);
+	close_i2c_loader();
 	close(spi_fd);
-	close(i2c_fd);
 	return 1;
 }

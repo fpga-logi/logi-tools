@@ -1,27 +1,9 @@
 
+#include "i2c_loader.h"
 
 
-struct i2c_loader_struct{
-	char * name ;
-	char * spi_path ;
-	char has_expander ;
-	char * i2c_path ;
-	char expander_address ;
-	char expander_cfg ;
-	char expander_in ;
-	char expander_out ;
-	char mode1_pin;
-	char mode0_pin;
-	char done_pin;
-	char prog_pin;
-	char init_pin;
-	char flash_rst_pin;
-	char mux_oen_pin;
-};
-
-
-
-
+#ifndef LOGI_LOADER_H
+#define LOGI_LOADER_H
 
 // UNIFIED REGISTERS FOR LOGIBONE/LOGIPI R1.5
 #define LOGI_R1_5_SSI_DONE 2
@@ -108,3 +90,4 @@ struct i2c_loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 
 struct i2c_loader_struct * logi_variants [] = {&logibone_r1_5_loader, &logibone_r1_loader};
 
+#endif
