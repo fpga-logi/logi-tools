@@ -305,11 +305,24 @@ int init_loader(){
 #ifdef LOGIBONE
 	int success = 0;
 	int retry = 0 ;
+	char dummy = 0 ;
 	while(!success & retry < sizeof(logi_variants) ){
 		fpga_loader = logi_variants[retry] ;	
 		if(init_i2c(fpga_loader->i2c_path, fpga_loader->expander_address) >= 0){
-			success = 1 ;
+			printf("Testing board variant %s \n", fpga_loader-> name);
+		}
+		if (ioctl(i2c_fd, I2C_SLAVE, fpga_loader->expander_address) < 0){
+			retry ++ ;
+			printf("I2C error !! \n", fpga_loader-> name);
+		}
+		
+		if(read(i2c_fd, &dummy, 1) != 1){
+			printf("Switching to next variant \n");
+			success = 0 ;
+			retry ++ ;
+		}else{
 			printf("Board variant is %s \n", fpga_loader-> name);
+			success = 1 ;
 		}
 	}
 	if(retry >= sizeof(logi_variants)){
