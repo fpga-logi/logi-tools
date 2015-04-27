@@ -236,8 +236,15 @@ int main(int argc, char ** argv){
 	double diff_time ;
 	struct timespec cpu_time ;
 	unsigned int size = 0 ;	
-	
-	init_loader();
+	#ifdef LOGIBONE
+		printf("Compiled for LOGI-BONE \n");
+	#else
+		printf("Compiled for LOGI-PI \n");
+	#endif
+	if(init_loader() < 0){
+		printf("No logi-board detected !! \n");
+		exit(0);
+	}
 	/*
 	//parse programm args
 	for(i = 1 ; i < argc ; ){
