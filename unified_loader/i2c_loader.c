@@ -92,7 +92,7 @@ int init_i2c_loader(struct i2c_loader_struct * selected_loader){
 		close(i2c_fd);
 		return -1 ;
 	}
-	fpga_laoder = selected_loader ;
+	fpga_loader = selected_loader ;
 	return init_port_for_ssi() ;
 }
 
