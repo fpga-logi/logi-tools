@@ -95,7 +95,7 @@ struct i2c_loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 
 
 struct bb_loader_struct logipi_r1_0_loader = {
-	"LOGIPI_R1.5",
+	"LOGIPI_R1.0",
 	"/dev/spidev0.1", 
 	0,
 	"",

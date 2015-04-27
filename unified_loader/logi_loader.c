@@ -190,7 +190,7 @@ int init_spi(char * path){
 
 //RESET THE FPGA - COMMNAD LINE OPTION
 void resetFPGA(){
-	set_i2c_progb();
+	set_progb();
 }
 
 //CONFIGURE THE FPGA USING SLAVE SERIAL CONFIGURATION INTERFACE
@@ -199,7 +199,6 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	unsigned long int i;
 	unsigned long int timer = 0;
 	unsigned char * bitBuffer;
-	unsigned char i2c_buffer[4];
 	unsigned int write_length, write_index ;
 
 
@@ -224,12 +223,12 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	set_progb();
 
 	
-	while (get_init() == 0 && timer < 256) { // need to find a better way ...
+	while (get_init() == 0 && timer < 0xFFFFFF) { // need to find a better way ...
 		timer++; // waiting for init pin to go up
 	}
 	
 
-	if (timer >= 256) {
+	if (timer >= 0xFFFFFF) {
 		printf("FPGA did not answer to prog request, init pin not going high \n");
 		return -1;
 	}
@@ -291,6 +290,7 @@ int init_loader(){
 		printf("Cannot detect LOGI-PI with I2C_LOADER, switching to old bit-bang loader \n");
 	 	loader_type = BB ;
 		printf("Board variant is %s \n", logipi_r1_0_loader.name);
+		init_bb_loader();
 		if(init_spi(logipi_r1_0_loader.spi_path) < 0){
 			 printf("can't open SPI bus \n");
 			 return -1 ;

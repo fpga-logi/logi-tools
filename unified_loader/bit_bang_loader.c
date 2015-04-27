@@ -20,8 +20,6 @@
 #define GPIO_BASE                (BCM2709_PERI_BASE + GPIO_OFFSET)
 #endif
 
-#define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
-
 #define PAGE_SIZE (4*1024)
 #define BLOCK_SIZE (4*1024)
 
@@ -83,7 +81,7 @@ int init_bb_loader(){
 
 	if (gpio_map == MAP_FAILED) {
 		printf("mmap error %p\n", gpio_map);//errno also set!
-		exit(EXIT_FAILURE);
+		return -1 ;
 	}
 
 	// Always use volatile pointer!
