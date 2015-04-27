@@ -1,9 +1,12 @@
 
 #include "i2c_loader.h"
+#include "bit_bang_loader.h"
 
 
 #ifndef LOGI_LOADER_H
 #define LOGI_LOADER_H
+
+
 
 // UNIFIED REGISTERS FOR LOGIBONE/LOGIPI R1.5
 #define LOGI_R1_5_SSI_DONE 2
@@ -87,6 +90,32 @@ struct i2c_loader_struct logipi_r1_5_loader = {"LOGIPI_R1.5",
 	LOGI_R1_5_MUX_OEn
 	};
 
+
+
+
+
+struct bb_loader_struct logipi_r1_0_loader = {
+	"LOGIPI_R1.5",
+	"/dev/spidev0.1", 
+	0,
+	"",
+	0,
+	0,
+	0,
+	0,
+	-1,
+	-1,
+	25,
+	24,
+	23,
+	-1,
+	-1
+};
+
+enum loader_type_enum{
+	I2C,
+	BB
+};
 
 struct i2c_loader_struct * logi_variants [] = {&logibone_r1_5_loader, &logibone_r1_loader};
 

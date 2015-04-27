@@ -14,12 +14,15 @@
 #include <math.h>
 #include "logi_loader.h"
 #include "i2c_loader.h"
+#include "bit_bang_loader.h"
 
 //PROCESS
 #define CONFIG_CYCLES 1
 #define SSI_DELAY 1
 
 
+
+enum loader_type_enum loader_type ;
 
 //FILE DESCRIPTORS
 int spi_fd ;
@@ -37,7 +40,6 @@ static unsigned int delay = 0;
 unsigned char configBits[1024*1024*4], configDummy[1024*1024*4];
 
 //PROTOTYPES
-
 int init_spi(char * path);
 char serialConfig(unsigned char * buffer, unsigned int length);
 void serialConfigWriteByte(unsigned char val);
@@ -60,6 +62,75 @@ void __delay_cycles(unsigned long cycles){
 static inline unsigned int min(unsigned int a, unsigned int b){
 	if(a < b) return a ;
 	return b ;
+}
+
+
+
+
+void clear_progb(){
+	switch(loader_type){
+		case I2C :
+			clear_i2c_progb() ;
+			break ;
+		case BB :
+			clear_bb_progb() ; 
+			break ;
+		default :
+			clear_bb_progb() ; 
+			break ;
+	};
+}
+void set_progb(){
+	switch(loader_type){
+		case I2C :
+			set_i2c_progb() ;
+			break ;
+		case BB : 
+			set_bb_progb() ;
+			break ;
+		default :
+			set_bb_progb() ;
+			break ;
+	};
+}
+char get_init(){
+	switch(loader_type){
+		case I2C :
+			return get_i2c_init() ;
+			break ;
+		case BB : 
+			return get_bb_init() ;
+			break ;
+		default :
+			return get_bb_init() ;
+			break ;
+	};
+}
+char get_done(){
+	switch(loader_type){
+		case I2C :
+			return get_i2c_done() ;
+			break ;
+		case BB : 
+			return get_bb_done() ;
+			break ;
+		default :
+			return get_bb_done() ;
+			break ;
+	};
+}
+void close_loader(){
+	switch(loader_type){
+		case I2C :
+			close_i2c_loader();
+			break ;
+		case BB : 
+			close_bb_loader();
+			break ;
+		default :
+			close_bb_loader();
+			break ;
+	};
 }
 
 //INIT SPI DEVICE
@@ -134,26 +205,26 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 
 	__delay_cycles(100 * SSI_DELAY);
 
-	set_i2c_progb();
+	set_progb();
 	__delay_cycles(10 * SSI_DELAY);
-	clear_i2c_progb();
+	clear_progb();
 	__delay_cycles(5 * SSI_DELAY);
 
-	while (get_i2c_init()> 0 && timer < 200)
+	while (get_init()> 0 && timer < 200)
 		timer++; // waiting for init pin to go down
 
 	if (timer >= 200) {
 		printf("FPGA did not answer to prog request, init pin not going low \n");
-		set_i2c_progb();
+		set_progb();
 		return -1;
 	}
 
 	timer = 0;
 	__delay_cycles(5 * SSI_DELAY);
-	set_i2c_progb();
+	set_progb();
 
 	
-	while (get_i2c_init() == 0 && timer < 256) { // need to find a better way ...
+	while (get_init() == 0 && timer < 256) { // need to find a better way ...
 		timer++; // waiting for init pin to go up
 	}
 	
@@ -175,7 +246,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 		write_length = min(length, SPI_MAX_LENGTH);
 	}
 
-	if (get_i2c_done() == 0) {
+	if (get_done() == 0) {
 		printf("FPGA prog failed, done pin not going high \n");
 		return -1;
 	}
@@ -206,7 +277,8 @@ int init_loader(){
 			retry ++ ;	
 		}else{
 			fpga_loader = logi_variants[retry] ;
-			success = 1 ;		
+			success = 1 ;
+			loader_type = I2C ;		
 		}
 	}
 	if(retry >= sizeof(logi_variants)){
@@ -216,8 +288,16 @@ int init_loader(){
 #else
 	fpga_loader = &logipi_r1_5_loader ; // if not logibone, board is logipi
 	if(init_i2c_loader(fpga_loader) < 0){
-		printf("Cannot detect LOGI-PI \n");
-	 	return -1 ;
+		printf("Cannot detect LOGI-PI with I2C_LOADER, switching to old bit-bang loader \n");
+	 	loader_type = BB ;
+		printf("Board variant is %s \n", logipi_r1_0_loader.name);
+		if(init_spi(logipi_r1_0_loader.spi_path) < 0){
+			 printf("can't open SPI bus \n");
+			 return -1 ;
+		}
+		return 0 ;
+	}else{
+		loader_type = I2C ;
 	}
 #endif
 	printf("Board variant is %s \n", fpga_loader-> name);
@@ -225,6 +305,7 @@ int init_loader(){
 		 printf("can't open SPI bus \n");
 		 return -1 ;
 	}
+	return 0 ;
 }
 
 //MAIN FUNCTION******************************************************
@@ -292,7 +373,7 @@ int main(int argc, char ** argv){
 	}
 	
 	fclose(fr);
-	close_i2c_loader();
+	close_loader();
 	close(spi_fd);
 	return 1;
 }

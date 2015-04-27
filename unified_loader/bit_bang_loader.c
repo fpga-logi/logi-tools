@@ -39,7 +39,7 @@ unsigned cfg_save[3] ;
 void clear_bb_progb(){
 	GPIO_CLR = 1<<PROG;
 }
-void set_bb_progb()(){
+void set_bb_progb(){
 	GPIO_SET = 1<<PROG;
 }
 char get_bb_done(){
@@ -72,28 +72,22 @@ int init_bb_loader(){
 	close(mem_fd); //No need to keep mem_fd open after mmap
 
 	if (gpio_map == MAP_FAILED) {
-		printf("mmap error %04x\n", (unsigned int) gpio_map);//errno also set!
+		printf("mmap error %p\n", gpio_map);//errno also set!
 		exit(EXIT_FAILURE);
 	}
 
 	// Always use volatile pointer!
 	gpio = (volatile unsigned *)gpio_map;
 
-	for(i = 0; i < 5 ; i ++){
+	for(i = 0; i < 3 ; i ++){
 		switch(i){
-			case 0:
-				cfg_save[i] = GPIO_REG(SCLK);
-				break ;
-			case 1:
-				cfg_save[i] = GPIO_REG(MOSI);
-				break ;
-			case 2:	
+			case 0:	
 				cfg_save[i] = GPIO_REG(INIT);
 				break ;
-			case 3:
+			case 1:
 				cfg_save[i] = GPIO_REG(PROG);
 				break ;
-			case 4:
+			case 2:
 				cfg_save[i] = GPIO_REG(DONE);
 				break ;
 			default: 
@@ -112,6 +106,7 @@ int init_bb_loader(){
 
 
 void close_bb_loader(){
+	unsigned int i ;
 	for(i = 0; i < 3 ; i ++){
 		switch(i){
 			case 0:	
