@@ -13,8 +13,8 @@ echo "Installing dependencies..............."
 sudo apt-get install gcc make git
 
 echo "Installing logi_loader..............."
-cd logibone_loader/user_space
-make
+cd unified_loader
+make logibone_loader
 sudo make install
 cd ${SCRIPT_DIR}
 

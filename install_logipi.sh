@@ -13,8 +13,8 @@ echo "Install dependencies"
 sudo apt-get install gcc make git
 
 echo "Install logi_loader"
-cd logipi_loader
-make
+cd unified_loader
+make logipi_loader
 sudo make install
 cd ${SCRIPT_DIR}
 
