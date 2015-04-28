@@ -244,11 +244,12 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 		length -= write_length ;
 		write_length = min(length, SPI_MAX_LENGTH);
 	}
-
+	/*
 	if (get_done() == 0) {
 		printf("FPGA prog failed, done pin not going high \n");
 		return -1;
 	}
+	*/
 	/*
 	i2c_buffer[0] = fpga_loader->expander_cfg;
 	i2c_buffer[1] = 0xFF;
@@ -260,7 +261,7 @@ char serialConfig(unsigned char * buffer, unsigned int length){
 	*/		
 	/*i2c_set_pin(fpga_loader, fpga_loader->mode1_pin, 1);
 	i2c_set_pin(fpga_loader, fpga_loader->prog_pin, 1);*/
-	return length;
+	return 1;
 }
 
 
