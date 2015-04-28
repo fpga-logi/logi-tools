@@ -1,0 +1,9 @@
+Unified loader works for LOGIPI_R1.5, LOGIBONE_R1.0 and LOGIBONE_R1.5 (for LOGIPI_R1.0 use old loader).
+
+To compile for logibone (R1.5 and R1.0) just type :
+
+make logibonel_loader
+
+To compile for LOGIPI type :
+
+make logipi_loader
