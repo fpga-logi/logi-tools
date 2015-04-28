@@ -370,7 +370,7 @@ int main(int argc, char ** argv){
 		printf("config error \n");
 
 	}else{
-		printf("config success ! \n");	
+		printf("bitstream loaded, check done led \n");	
 	}
 	
 	fclose(fr);
