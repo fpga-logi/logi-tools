@@ -23,4 +23,8 @@ To enable SPI on latest raspbian distro, edit /boot/config.txt and add :
 
 dtparam=spi=on
 
+To enable I2C on latest raspbian distro, edit /boot/config.txt and add :
+
+dtparam=i2c_arm=on
+
 to the file.
