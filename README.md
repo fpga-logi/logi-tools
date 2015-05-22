@@ -19,12 +19,16 @@ make clean
 make PI_VER=PI2
 sudo make install
 
-To enable SPI on latest raspbian distro, edit /boot/config.txt and add :
+To enable SPI on latest raspbian distro, edit /boot/config.txt (as sudo) and add :
 
 dtparam=spi=on
 
-To enable I2C on latest raspbian distro, edit /boot/config.txt and add :
+To enable I2C on latest raspbian distro, edit /boot/config.txt (as sudo )and add :
 
 dtparam=i2c_arm=on
 
 to the file.
+
+also edit /etc/modules (as sudo) and add the line :
+
+i2c-dev
