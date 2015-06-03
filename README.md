@@ -16,7 +16,9 @@ To install the logi-pi tools, run install_logipi as sudo. This will flash the ca
 For PI2 owners : For PI2 only the loader needs to be updated and device-tree setup so spi is enabled (disabled by default). To update the loader after the install_logipi script was run, go to logipi_loader and run the following commands:
 
 make clean
+
 make PI_VER=PI2
+
 sudo make install
 
 To enable SPI on latest raspbian distro, edit /boot/config.txt (as sudo) and add :
