@@ -11,13 +11,15 @@ To install the logi-bone tools, run install_logibone as sudo. This will flash th
 
 LOGI-PI Instructions
 
-To install the logi-pi tools, run install_logipi as sudo. This will flash the cape eeprom, install the loader, compile the communication library and install the python library.
+To install the logi-pi tools, run install_logipi as sudo. This will install the loader, compile the communication library and install the python library.
 
-For PI2 owners : For PI2 only the loader needs to be updated and device-tree setup so spi is enabled (disabled by default). To update the loader after the install_logipi script was run, go to logipi_loader and run the following commands:
+For PI2 owners using the LOGIPI R1.1, you'll need to re-compile the loader using the following procedure (in logi-tools):
+
+cd unified_loader 
 
 make clean
 
-make PI_VER=PI2
+make logipi_loader PI_VER=PI2
 
 sudo make install
 
