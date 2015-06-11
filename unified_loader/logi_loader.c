@@ -318,6 +318,9 @@ int main(int argc, char ** argv){
 	double diff_time ;
 	struct timespec cpu_time ;
 	unsigned int size = 0 ;	
+	printf("LOGI_LOADER VERSION : ");
+	printf(LOADER_VERSION);
+	printf("\n");
 	#ifdef LOGIBONE
 		printf("Compiled for LOGI-BONE \n");
 	#else
