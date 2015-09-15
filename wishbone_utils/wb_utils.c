@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/ioctl.h>
-#include "logipilib.h"
+#include "logilib.h"
 
 //#define PWM_DIVIDER_ADDR 0X0010
 //#define PWM_PERIOD_ADDR 0X0012
