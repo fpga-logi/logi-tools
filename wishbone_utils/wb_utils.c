@@ -53,30 +53,34 @@ int main(int argc, char ** argv){
 	unsigned int start_addr, stop_addr, addr, val;
 
 	if(argc  < 1){
-		printf("not enough arguments \n");
+		printf("arguments can be \n");
+		printf("\t wr_range <start @> <stop @> <val>\n");
+		printf("\t rd_range <start @> <stop @>\n");
+		printf("\t wr <@> <val>\n");
+		printf("\t rd <@> \n");
 		return 0 ;
 	}
 	
-	if( strcmp( argv[1], "wb_wr_range")==0 ){
+	if( strcmp( argv[1], "wr_range")==0 ){
 		start_addr = strtol(argv[2], NULL, 0);
 		stop_addr = strtol(argv[3], NULL, 0);
 		val = strtol(argv[4], NULL, 0);
 		printf("wb_write_range start: 0x%4x stop: 0x$4x val: 0x%4x \r\n",start_addr, stop_addr, val);
 		wb_wr_range(start_addr, stop_addr, (unsigned short)val); 
 	}
-	else if( strcmp( argv[1], "wb_rd_range")==0 ){
+	else if( strcmp( argv[1], "rd_range")==0 ){
 		start_addr = strtol(argv[2], NULL, 0);
 		stop_addr = strtol(argv[3], NULL, 0);
 		printf("wb_write_range start: 0x%4x stop: 0x$4x\r\n",start_addr, stop_addr);
 		wb_rd_range(start_addr, stop_addr);
 	}
-	else if( strcmp( argv[1], "wb_wr")==0 ){	//put the short strings last, 
+	else if( strcmp( argv[1], "wr")==0 ){	//put the short strings last, 
 		addr = strtol(argv[2], NULL, 0);
 		val = strtol(argv[3], NULL, 0);
 		printf("wb_write Address: 0x%4x Value: 0x%4x \r\n", addr, val);
 		wb_wr( addr, (unsigned short)val); 
 	}
-	else if( strcmp( argv[1], "wb_rd")==0 ){	//put the short strings last, 
+	else if( strcmp( argv[1], "rd")==0 ){	//put the short strings last, 
 		addr = strtol(argv[2], NULL, 0);
 		printf("wb_write Address: 0x%4x Value: 0x%4x \r\n", addr, val);
 		wb_rd( addr); 
