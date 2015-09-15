@@ -19,10 +19,8 @@ int wb_wr(unsigned int addr, unsigned short val){
 
 int wb_rd(unsigned int addr){
 	unsigned short read_val;
-
 	logi_read((unsigned char *) &read_val, (unsigned int)2, addr);
 	printf("address: 0x%x   Read Value: 0x%x \r\n", addr, read_val);
-
 	return(1);
 }
 
@@ -82,7 +80,7 @@ int main(int argc, char ** argv){
 	}
 	else if( strcmp( argv[1], "rd")==0 ){	//put the short strings last, 
 		addr = strtol(argv[2], NULL, 0);
-		printf("wb_write Address: 0x%4x Value: 0x%4x \r\n", addr, val);
+		printf("wb_read Address: 0x%4x \r\n", addr, val);
 		wb_rd( addr); 
 	}
 	else {
