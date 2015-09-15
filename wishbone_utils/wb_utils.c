@@ -10,14 +10,9 @@
 #include <sys/ioctl.h>
 #include "logilib.h"
 
-//#define PWM_DIVIDER_ADDR 0X0010
-//#define PWM_PERIOD_ADDR 0X0012
-//#define PWM_DUTY_ADDR 0X0014
-
-
 int wb_wr(unsigned int addr, unsigned short val){
 
-	logi_write( &val, (unsigned int)2, addr);
+	logi_write( (unsigned char *) &val, (unsigned int)2, addr);
 	printf("address:%x Write Val:%x \r\n",addr, val);
 	return(1);
 }
@@ -25,7 +20,7 @@ int wb_wr(unsigned int addr, unsigned short val){
 int wb_rd(unsigned int addr){
 	unsigned short read_val;
 
-	logi_read(&read_val, (unsigned int)2, addr);
+	logi_read((unsigned char *) &read_val, (unsigned int)2, addr);
 	printf("address: 0x%x   Read Value: 0x%x \r\n", addr, read_val);
 
 	return(1);
@@ -34,7 +29,7 @@ int wb_rd(unsigned int addr){
 int wb_wr_range(unsigned int start_addr, unsigned int stop_addr, unsigned short val){
 	unsigned short i;
 	for(i = start_addr; i<stop_addr; i++){
-		logi_write( &val, (unsigned int)2, i);
+		logi_write((unsigned char *) &val, (unsigned int)2, i);
 		printf("address:%X Write Val:%x \r\n",i, val);
 	}
 	return(1);
@@ -46,7 +41,7 @@ int wb_rd_range(int start_addr, int stop_addr){
 	unsigned short read_val,i;
 
 	for(i = start_addr; i<stop_addr; i++){
-		logi_read(&read_val, (unsigned int)2, i);
+		logi_read((unsigned char *) &read_val, (unsigned int)2, i);
 		printf("address: 0x%X   Read Value: 0x%X \r\n",i , read_val);
 	}
 	return(1);
