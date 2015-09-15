@@ -52,7 +52,7 @@ int main(int argc, char ** argv){
 	unsigned int i;
 	unsigned int start_addr, stop_addr, addr, val;
 
-	if(argc  < 1){
+	if(argc  < 2){
 		printf("arguments can be \n");
 		printf("\t wr_range <start @> <stop @> <val>\n");
 		printf("\t rd_range <start @> <stop @>\n");
