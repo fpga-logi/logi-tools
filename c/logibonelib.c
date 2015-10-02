@@ -15,6 +15,11 @@ int fd ;
 
 int logi_open(){
 	fd = open("/dev/logibone_mem", O_RDWR | O_SYNC);
+	if(fd < 0){
+		printf("Failed to open /dev/logibone_mem");
+		return -1 ;
+	}
+
 	return 1 ;
 }
 
@@ -25,7 +30,7 @@ void logi_close(){
 int logi_write(unsigned char * buffer, unsigned int length, unsigned int address){
 	int count = 0 ;
 	if(fd == 0){
-		logi_open();
+		if(logi_open() < 0) return -1;
 	}
 	count = pwrite(fd, buffer, length, address);
 	return count ;
@@ -33,7 +38,7 @@ int logi_write(unsigned char * buffer, unsigned int length, unsigned int address
 int logi_read(unsigned char * buffer, unsigned int length, unsigned int address){
 	int count = 0 ;
 	if(fd == 0){
-		logi_open();
+		if(logi_open() < 0) return -1;
 	}
 	count = pread(fd, buffer, length, address);
 	return count ;

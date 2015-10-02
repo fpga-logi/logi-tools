@@ -25,3 +25,4 @@ liblogibone.so : logibonelib.o
 
 liblogipi.so : logipilib.o
 	$(CC) -shared -o liblogipi.so logipilib.o
+
