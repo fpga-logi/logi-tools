@@ -2,7 +2,7 @@
 CC=gcc
 #Linker Flags
 LDFLAGS= #-lrt
-PI_VER=PI1
+PI_VER=PI2
 
 
 logipi_loader: logi_loader.c i2c_loader.c bit_bang_loader.c
