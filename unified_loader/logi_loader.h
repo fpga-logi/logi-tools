@@ -42,9 +42,9 @@
 
 
 struct i2c_loader_struct logibone_r1_loader = {"LOGIBONE_R1",
-	"/dev/spidev1.0", 
+	"/dev/spidev2.0", 
 	1,
-	 "/dev/i2c-1",
+	 "/dev/i2c-2",
 	LOGIBONE_R1_I2C_IO_EXP_ADDR, 
 	LOGIBONE_R1_I2C_IO_EXP_CONFIG_REG,
 	LOGIBONE_R1_I2C_IO_EXP_IN_REG,
@@ -60,9 +60,9 @@ struct i2c_loader_struct logibone_r1_loader = {"LOGIBONE_R1",
 
 
 struct i2c_loader_struct logibone_r1_5_loader = {"LOGIBONE_R1.5",
-	"/dev/spidev1.0", 
+	"/dev/spidev2.0", 
 	1,
-	 "/dev/i2c-1", 
+	 "/dev/i2c-2", 
 	LOGI_R1_5_I2C_IO_EXP_ADDR, 
 	LOGI_R1_5_I2C_IO_EXP_CONFIG_REG,
 	LOGI_R1_5_I2C_IO_EXP_IN_REG,
