@@ -1,6 +1,11 @@
 #include <Python.h>
 #include "logilib.h"
 
+#if PY_MAJOR_VERSION >= 3
+	#define PyInt_Check PyLong_Check
+	#define PyInt_AsSsize_t PyLong_AsSsize_t
+#endif
+
 static void pabort(const char *s)
 {
 	perror(s);
@@ -105,9 +110,28 @@ static PyMethodDef logiMethods[] =
 };
 
 PyMODINIT_FUNC
-
+#if PY_MAJOR_VERSION >= 3
+PyInit_logi(void)
+#else
 initlogi(void)
+#endif
 {
-	(void) Py_InitModule("logi", logiMethods);
+#if PY_MAJOR_VERSION >= 3
+    static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "logi",                                     // m_name
+        "Read/write data to a LOGI Pi FPGA board.", // m_doc
+        -1, // m_size (bytes of memory needed; -1 for no memory required)
+        logiMethods // m_methods
+    };
+    PyObject *module = PyModule_Create(&moduledef);
+#else
+    (void) Py_InitModule("logi", logiMethods);
+#endif
+
 	logi_open();
+
+#if PY_MAJOR_VERSION >= 3
+	return module;
+#endif
 }
