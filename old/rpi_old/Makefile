@@ -15,7 +15,7 @@ endif
 
 CC	= gcc
 INCLUDE	= -I/usr/local/include -I./
-CFLAGS	= $(DEBFLAGS) -Wall $(INCLUDE) -pipe
+CFLAGS	= $(DEBFLAGS) -Wall $(INCLUDE) -pipe -fsigned-char
 
 CROSS_COMPILE ?= 
 ARCH ?=

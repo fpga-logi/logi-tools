@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -fpic
+CFLAGS = -Wall -Werror -fpic -fsigned-char
 
 all : logipilib.o logibonelib.o
 

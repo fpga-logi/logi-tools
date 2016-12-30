@@ -1,7 +1,7 @@
 #Compiler to use
 CC=gcc
 #Compiler Flags
-CFLAGS=-c #-Wall
+CFLAGS=-c -fsigned-char #-Wall
 #Linker Flags
 LDFLAGS= #-lrt
 
