@@ -12,34 +12,91 @@
 #include "bit_bang_loader.h"
 
 
-#define BCM2708_PERI_BASE        0x20000000
-#define BCM2709_PERI_BASE        0x3f000000
-
-#define GPIO_OFFSET     0x200000
-
-#ifndef PI2
-#define GPIO_BASE                (BCM2708_PERI_BASE + GPIO_OFFSET) /* GPIO controller */
-#else
-#define GPIO_BASE                (BCM2709_PERI_BASE + GPIO_OFFSET)
-#endif
-
-#define PAGE_SIZE (4*1024)
-#define BLOCK_SIZE (4*1024)
-
-#define INP_GPIO(g) *(gpio+((g)/10)) &= ~(7<<(((g)%10)*3))
-#define OUT_GPIO(g) *(gpio+((g)/10)) |=  (1<<(((g)%10)*3))
-#define SET_GPIO_ALT(g,a) *(gpio+(((g)/10))) |= (((a)<=3?(a)+4:(a)==4?3:2)<<(((g)%10)*3))
-
-#define GPIO_REG(g) *(gpio+(((g)/10)))
-
-#define GPIO_SET *(gpio+7)  // sets   bits which are 1 ignores bits which are 0
-#define GPIO_CLR *(gpio+10) // clears bits which are 1 ignores bits which are 0
-#define GPIO_LEV *(gpio+13) // clears bits which are 1 ignores bits which are 0
-
-
 #define INIT 23
 #define PROG 24
 #define DONE 25
+
+#define STRINGIFY(x) #x
+#define GPIO_NAME(n) "GPIO" STRINGIFY(n)
+#define GPIO_CHIP_PATH "/dev/gpiochip0"
+#define BB_INIT_GPIO_NAME GPIO_NAME(INIT)
+#define CONSUMER "logi_loader"
+
+typedef struct gpio_line {
+    const int line_id;
+    const char *name;
+    const char *line_name;
+    int is_output;
+    struct gpiod_line *line;
+} gpio_line_type;
+
+#define GPIO_SETTINGS(which, out) {which, STRINGIFY(which), GPIO_NAME(which), out, NULL}
+
+gpio_line_type gpios[] = {
+    //{INIT, "INIT", GPIO_NAME(INIT), 0, NULL},
+    GPIO_SETTINGS(INIT, 0),
+    {DONE, "DONE", GPIO_NAME(DONE), 0, NULL},
+    {DONE, "PROG", GPIO_NAME(PROG), 1, NULL},
+};
+
+static void setup_gpio(struct gpiod_chip *chip, gpio_line_type *gpio)
+{
+    char err_buff[1000];
+    int result;
+
+    gpio->line = gpiod_chip_find_line(chip, gpio->line_name);
+    if (gpio->line == NULL) {
+        snprintf(err_buff, sizeof(err_buff), "Can't open GPIO line '%s'", gpio->name);
+        perror(err_buff);
+        exit(EXIT_FAILURE);
+    }
+
+    if (gpio->is_output) {
+        result = gpiod_line_request_output(gpio->line, CONSUMER, 0);
+    } else {
+        result = gpiod_line_request_input(gpio->line, CONSUMER);
+    }
+    if (result < 0) {
+        snprintf(err_buff, sizeof(err_buff), "Can't reserve GPIO line '%s'", gpio->name);
+        perror(err_buff);
+        exit(EXIT_FAILURE);
+    }
+}
+
+static void cleanup_gpio(struct gpiod_chip *chip, gpio_line_type *gpio)
+{
+    (void)gpiod_line_release(gpio->line);
+    gpio->line = NULL;
+
+    (void)gpiod_chip_close(chip);
+    chip = NULL;
+}
+
+static void gpio_set(gpio_line_type *gpio, int value)
+{
+    char err_buff[1000];
+    int result = gpiod_line_set_value(gpio->line, value);
+    if (result < 0) {
+        snprintf(err_buff, sizeof(err_buff), "Can't set output value of line '%s'", gpio->name);
+        perror(err_buff);
+        exit(EXIT_FAILURE);
+
+    }
+}
+
+static int gpio_get(gpio_line_type *gpio)
+{
+    char err_buff[1000];
+    int result = gpiod_line_get_value(gpio->line);
+    if (result < 0) {
+        snprintf(err_buff, sizeof(err_buff), "Can't get input value of line '%s'", gpio->name);
+        perror(err_buff);
+        exit(EXIT_FAILURE);
+
+    }
+    return result;
+}
+
 
 void *gpio_map;
 
@@ -48,92 +105,40 @@ volatile unsigned *gpio;
 unsigned cfg_save[3] ;
 
 void clear_bb_progb(){
-	GPIO_CLR = 1<<PROG;
+	gpio_set(gpios + PROG, 0);
 }
 void set_bb_progb(){
-	GPIO_SET = 1<<PROG;
+	gpio_set(gpios + PROG, 1);
 }
 char get_bb_done(){
-	return ((GPIO_LEV >> DONE) & 0x01) ;
+	return (gpio_get(gpios + DONE)) ;
 }
 char get_bb_init(){
-	return ((GPIO_LEV >> INIT) & 0x01) ;
+	return (gpio_get(gpios + INIT)) ;
 }
 
 
+static struct gpiod_chip *chip= NULL;
 
 int init_bb_loader(){
-	unsigned int i = 0 ;
-	int mem_fd ;
-	if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
-		printf("can't open /dev/mem \n");
-		exit(EXIT_FAILURE);
-	}
-
-	/* mmap GPIO */
-	gpio_map = mmap(
-	NULL,             //Any adddress in our space will do
-	BLOCK_SIZE,       //Map length
-	PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
-	MAP_SHARED,       //Shared with other processes
-	mem_fd,           //File to map
-	GPIO_BASE         //Offset to GPIO peripheral
-	);
-
-	close(mem_fd); //No need to keep mem_fd open after mmap
-
-	if (gpio_map == MAP_FAILED) {
-		printf("mmap error %p\n", gpio_map);//errno also set!
-		return -1 ;
-	}
-
-	// Always use volatile pointer!
-	gpio = (volatile unsigned *)gpio_map;
-
-	for(i = 0; i < 3 ; i ++){
-		switch(i){
-			case 0:	
-				cfg_save[i] = GPIO_REG(INIT);
-				break ;
-			case 1:
-				cfg_save[i] = GPIO_REG(PROG);
-				break ;
-			case 2:
-				cfg_save[i] = GPIO_REG(DONE);
-				break ;
-			default: 
-				break ;
-		};
-		
-	}
-
-	INP_GPIO(INIT);
-	INP_GPIO(PROG);
-	INP_GPIO(DONE);	
-
-	OUT_GPIO(PROG);
+    chip = gpiod_chip_open(GPIO_CHIP_PATH);
+    if (chip == NULL) {
+        perror("Can't open GPIO chip device " GPIO_CHIP_PATH);
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < sizeof(gpios)/sizeof(gpio_line_type); i++) {
+        setup_gpio(chip, gpios + i);
+        printf("Set up GPIO line %i\n", i);
+    }
 	return 0 ;
 }
 
 
 void close_bb_loader(){
-	unsigned int i ;
-	for(i = 0; i < 3 ; i ++){
-		switch(i){
-			case 0:	
-				GPIO_REG(INIT) = cfg_save[i] ;
-				break ;
-			case 1:
-				GPIO_REG(PROG) = cfg_save[i] ;
-				break ;
-			case 2:
-				GPIO_REG(DONE) = cfg_save[i] ;
-				break ;
-			default: 
-				break ;
-		};
-		
-	}
+    for (int i = 0; i < sizeof(gpios)/sizeof(gpio_line_type); i++) {
+        cleanup_gpio(chip, gpios + i);
+        printf("Cleaned up GPIO line %i\n", i);
+    }
 }
 
 
