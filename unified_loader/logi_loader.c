@@ -12,6 +12,7 @@
 #include <linux/spi/spidev.h>
 #include <string.h> 
 #include <math.h>
+#include <unistd.h>
 #include "logi_loader.h"
 #include "i2c_loader.h"
 #include "bit_bang_loader.h"

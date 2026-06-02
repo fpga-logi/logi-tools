@@ -6,6 +6,9 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
+#include <gpiod.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
 #include "bit_bang_loader.h"
 
 
