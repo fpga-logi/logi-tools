@@ -139,19 +139,19 @@ int init_spi(char * path){
 	int ret ;
 	spi_fd = open(path, O_RDWR);
 	if (spi_fd < 0){
-		printf("can't open SPI spi_device\n");
+		perror("can't open SPI spi_device");
 		return -1 ;
 	}
 
 	ret = ioctl(spi_fd, SPI_IOC_WR_MODE, &spi_mode);
 	if (ret == -1){
-		printf("can't set spi mode \n");
+		perror("can't set spi mode");
 		return -1 ;
 	}
 
 	ret = ioctl(spi_fd, SPI_IOC_RD_MODE, &spi_mode);
 	if (ret == -1){
-		printf("can't get spi mode \n ");
+		perror("can't get spi mode");
 		return -1 ;
 	}
 
@@ -160,13 +160,13 @@ int init_spi(char * path){
 	 */
 	ret = ioctl(spi_fd, SPI_IOC_WR_BITS_PER_WORD, &spi_bits);
 	if (ret == -1){
-		printf("can't set bits per word \n");
+		perror("can't set bits per word");
 		return -1 ;
 	}
 
 	ret = ioctl(spi_fd, SPI_IOC_RD_BITS_PER_WORD, &spi_bits);
 	if (ret == -1){
-		printf("can't get bits per word \n");
+		perror("can't get bits per word");
 		return -1 ;
 	}
 
@@ -175,13 +175,13 @@ int init_spi(char * path){
 	 */
 	ret = ioctl(spi_fd, SPI_IOC_WR_MAX_SPEED_HZ, &spi_speed);
 	if (ret == -1){
-		printf("can't set max speed hz \n");
+		perror("can't set max speed hz");
 		return -1 ;
 	}
 
 	ret = ioctl(spi_fd, SPI_IOC_RD_MAX_SPEED_HZ, &spi_speed);
 	if (ret == -1){
-		printf("can't get max speed hz \n");
+		perror("can't get max speed hz");
 		return -1 ;
 	}
 	
