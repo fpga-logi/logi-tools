@@ -380,5 +380,5 @@ int main(int argc, char ** argv){
 	fclose(fr);
 	close_loader();
 	close(spi_fd);
-	return 1;
+	return 0;
 }
