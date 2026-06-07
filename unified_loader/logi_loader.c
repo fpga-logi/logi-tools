@@ -361,7 +361,7 @@ int main(int argc, char ** argv){
 	}
 	*/
 	fr = fopen (argv[i], "rb");  /* open the file for reading bytes*/
-	if(fr < 0){
+	if(!fr){
 		printf("cannot open file %s \n", argv[1]);
 		return -1 ;	
 	}
