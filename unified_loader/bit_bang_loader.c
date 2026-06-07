@@ -36,8 +36,10 @@ gpio_line_type gpios[] = {
     //{INIT, "INIT", GPIO_NAME(INIT), 0, NULL},
     GPIO_SETTINGS(INIT, 0),
     {DONE, "DONE", GPIO_NAME(DONE), 0, NULL},
-    {DONE, "PROG", GPIO_NAME(PROG), 1, NULL},
+    {PROG, "PROG", GPIO_NAME(PROG), 1, NULL},
 };
+
+gpio_line_type *gpio_lines[40] = {};
 
 static void setup_gpio(struct gpiod_chip *chip, gpio_line_type *gpio)
 {
@@ -61,15 +63,15 @@ static void setup_gpio(struct gpiod_chip *chip, gpio_line_type *gpio)
         perror(err_buff);
         exit(EXIT_FAILURE);
     }
+    gpio_lines[gpio->line_id] = gpio;
 }
 
 static void cleanup_gpio(struct gpiod_chip *chip, gpio_line_type *gpio)
 {
+    gpio_lines[gpio->line_id] = NULL;
+
     (void)gpiod_line_release(gpio->line);
     gpio->line = NULL;
-
-    (void)gpiod_chip_close(chip);
-    chip = NULL;
 }
 
 static void gpio_set(gpio_line_type *gpio, int value)
@@ -105,16 +107,16 @@ volatile unsigned *gpio;
 unsigned cfg_save[3] ;
 
 void clear_bb_progb(){
-	gpio_set(gpios + PROG, 0);
+	gpio_set(gpio_lines[PROG], 0);
 }
 void set_bb_progb(){
-	gpio_set(gpios + PROG, 1);
+	gpio_set(gpio_lines[PROG], 1);
 }
 char get_bb_done(){
-	return (gpio_get(gpios + DONE)) ;
+	return (gpio_get(gpio_lines[DONE])) ;
 }
 char get_bb_init(){
-	return (gpio_get(gpios + INIT)) ;
+	return (gpio_get(gpio_lines[INIT])) ;
 }
 
 
@@ -139,6 +141,9 @@ void close_bb_loader(){
         cleanup_gpio(chip, gpios + i);
         printf("Cleaned up GPIO line %i\n", i);
     }
+
+    (void)gpiod_chip_close(chip);
+    chip = NULL;
 }
 
 
