@@ -1,12 +1,12 @@
 #Compiler to use
-CC=gcc
+CC=gcc -Werror
 #Linker Flags
 LDFLAGS= #-lrt
 PI_VER=PI2
 
 
 logipi_loader: logi_loader.c i2c_loader.c bit_bang_loader.c
-	$(CC) -fsigned-char $(LDFLAGS) -DLOGIPI -D$(PI_VER) -o  logi_loader logi_loader.c i2c_loader.c bit_bang_loader.c
+	$(CC) -Werror -fsigned-char $(LDFLAGS) -DLOGIPI -D$(PI_VER) -o  logi_loader logi_loader.c i2c_loader.c bit_bang_loader.c -lgpiod -ggdb
 
 logibone_loader: logi_loader.c i2c_loader.c bit_bang_loader.c
 	$(CC) -fsigned-char $(LDFLAGS) -DLOGIBONE -o logi_loader logi_loader.c i2c_loader.c bit_bang_loader.c

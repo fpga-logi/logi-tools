@@ -4,8 +4,10 @@
 #include <sys/stat.h>
 #include <stdint.h>
 #include <sys/mman.h>
+#include <sys/ioctl.h>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
+#include <unistd.h>
 #include "i2c_loader.h"
 
 
@@ -40,7 +42,7 @@ static inline unsigned char i2c_get_pin(struct i2c_loader_struct * ldr_ptr, unsi
 	unsigned char i2c_buffer;
 
 	if (ioctl(i2c_fd, I2C_SLAVE, ldr_ptr->expander_address) < 0) {
-		return ;
+		return 0;
 	}
 		
 	i2c_buffer = ldr_ptr->expander_in;
